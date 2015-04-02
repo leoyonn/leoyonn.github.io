@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>back pressure及reactive streams研究 | Lyso as™ R&amp;D</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="引子　　随着Mampa 越来越多的应用在线上系统中，我们在逐步优化同时，发现一个很难绕过去的问题。一个系统中可能有多个ActorGroup，每个ActorGroup中负责一中业务类型（或层次）。比如：
+
+FetchActor中负责fetch消息的接收、处理、发回
+RedisActor中负责消息中与redis请求相关的操作，发请求到redis-server并把server的返回结果解码后返回给Fet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="back pressure及reactive streams研究">
+<meta property="og:url" content="http://lyso.me/2014/08/26/backpressure/index.html">
+<meta property="og:site_name" content="Lyso as™ R&D">
+<meta property="og:description" content="引子　　随着Mampa 越来越多的应用在线上系统中，我们在逐步优化同时，发现一个很难绕过去的问题。一个系统中可能有多个ActorGroup，每个ActorGroup中负责一中业务类型（或层次）。比如：
+
+FetchActor中负责fetch消息的接收、处理、发回
+RedisActor中负责消息中与redis请求相关的操作，发请求到redis-server并把server的返回结果解码后返回给Fet">
+<meta property="og:image" content="http://lyso.qiniudn.com/backpressure.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="back pressure及reactive streams研究">
+<meta name="twitter:description" content="引子　　随着Mampa 越来越多的应用在线上系统中，我们在逐步优化同时，发现一个很难绕过去的问题。一个系统中可能有多个ActorGroup，每个ActorGroup中负责一中业务类型（或层次）。比如：
+
+FetchActor中负责fetch消息的接收、处理、发回
+RedisActor中负责消息中与redis请求相关的操作，发请求到redis-server并把server的返回结果解码后返回给Fet">
+  
+    <link rel="alternative" href="/atom.xml" title="Lyso as™ R&amp;D" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Lyso as™ R&amp;D</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">理想主义者在现实中的舞步</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="q" value="site:http://lyso.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-backpressure" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/08/26/backpressure/" class="article-date">
+  <time datetime="2014-08-26T10:44:12.000Z" itemprop="datePublished">2014-08-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      back pressure及reactive streams研究
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://lyso.qiniudn.com/backpressure.png" alt="back pressure-图片来自akka"></p>
+<h2 id="引子">引子</h2><p>　　随着<a href="http://lyso.me/2014/02/01/mampa/" target="_blank" rel="external">Mampa</a> 越来越多的应用在线上系统中，我们在逐步优化同时，发现一个很难绕过去的问题。一个系统中可能有多个ActorGroup，每个ActorGroup中负责一中业务类型（或层次）。比如：</p>
+<ul>
+<li>FetchActor中负责fetch消息的接收、处理、发回</li>
+<li>RedisActor中负责消息中与redis请求相关的操作，发请求到redis-server并把server的返回结果解码后返回给FetchActor</li>
+<li>HBaseActor同RedisActor，负责处理HBase相关请求</li>
+<li>KakfaActor负责处理与Kafka相关的请求</li>
+</ul>
+<p>　　如果当前HBase性能较差，RedisActor又没有挡住大量的请求，而FetchActor中过来的消息太快，根据<a href="http://lyso.me/2014/07/26/queue-threory-littles-law/" target="_blank" rel="external">排队理论</a> 中所述，对于HBaseActor这样一个子系统来说，如果消息到达速率 &gt; 服务速率，这就不是一个稳定的系统，会导致Queue快速增长，直至内存爆掉或达到保护上限。到此上限后怎么处理更多的请求：</p>
+<ul>
+<li>丢弃</li>
+<li>将压力向上反馈到源头</li>
+</ul>
+<p>　　第二种方法，就是我们所要系统考虑的back pressure。</p>
+<h2 id="什么是back_pressure">什么是back pressure</h2><p>　　这种情况一般成为“持续压力”（sustained load），如果系统设计时不慎重考虑过载的情况，可能造成的结果是完全无法服务。如果请求量超过了系统的处理能力，就是要做取舍决定的时候了：Something has to give。比较理想的降级服务方法是，让系统仍以正常的latency、以最高的吞吐运行，而高于这个吞吐的那部分请求就拒绝服务好了。</p>
+<p>　　举一个过载例子。小米公司每周四都去奥体打羽毛球，8-10块场地，每块场地都&gt;8个人，打起来都觉得等的时间长，汗都出不来，再加上2B的奥体服务态度，忒不爽了。如果采用报名制，每个场地报名6人，报名晚的就只能自己想办法了——比如自己花个钱定场地，那结果是绝得大多数都玩的爽。（当然不久后场地会换到西三旗伟士，没有2B管理员后打的会更爽）</p>
+<p>　　什么是“Back Pressure”呢？再比如小米食堂里有500个座位，平均每人吃饭30min，如果同时有超过500个人到食堂，那就得有人等座，再加上饭菜不好吃肯定给差评了。如果可以即时在门口放一个牌子，显示已经进去了多少人（减去已经吃完出来的，就像很多车库的电子指示牌一样），发现食堂比较满的人就可以先不进去，去大桥上溜溜弯，去小米之家看会“万万想不到”，去咖啡厅坐会聊聊天…… 这样食堂里面正在吃饭的也觉得环境宽松，心情不错。根据Little’s Law，食堂不能服务超过每小时1000人，如果12:00-12:30有600人来吃饭，那就有100人在咖啡厅或其它地方消遣。在线上系统亦是如此，超过系统处理能力的部分如果能及时反馈到咖啡厅、大桥上，就是实现了BackPressure。</p>
+<h2 id="什么是reactive_streams">什么是reactive streams</h2><p>　　Reactive Streams 是一个在JVM上提供有非阻塞Back-Pressure能力的异步数据流的计划。</p>
+<h3 id="要解决的问题">要解决的问题</h3><p>　　处理实时数据流在异步系统里尤其需要小心，其中最主要的问题是在数据流的入口需要控制好不至于后续阶段中被冲垮。</p>
+<p>　　Reactive streams的主要目标是在“异步边界”上控制数据流的流量，例如把数据传输给另一个线程或线程池时需要确保其不会buffer溢出。换句话说，Back Pressure 是整个模型中重要的环节以确保队列大小的可控（<a href="http://lyso.me/2014/07/26/queue-threory-littles-law/" target="_blank" rel="external">队列：稳定的系统</a>）。 如果Back Pressure是同步的，那整个系统的异步带来的好处就不存在了。</p>
+<h3 id="First_Draft_Specification">First Draft Specification</h3><p>Available immediately is a First Draft Specification covering:</p>
+<ul>
+<li><a href="https://github.com/reactive-streams/reactive-streams/blob/v0.3/tck/src/main/resources/spec.md" target="_blank" rel="external">Semantics</a> —a specification document</li>
+<li><a href="https://github.com/reactive-streams/reactive-streams/tree/v0.3/spi/src/main/java/org/reactivestreams/api/" target="_blank" rel="external">API</a> —Java interfaces for end users</li>
+<li><a href="https://github.com/reactive-streams/reactive-streams/tree/v0.3/spi/src/main/java/org/reactivestreams/spi/" target="_blank" rel="external">SPI</a> —Java interfaces for implementations</li>
+<li><a href="https://github.com/reactive-streams/reactive-streams/tree/v0.3/tck/src/main/java/org/reactivestreams/tck/" target="_blank" rel="external">TCK</a> —a test harness to validate implementations and guide implementors<br>All of the parts of the Draft Proposal is released under Creative Commons Zero (Public Domain).</li>
+</ul>
+<h3 id="Implementations_of_the_draft_spec">Implementations of the draft spec</h3><ul>
+<li>Akka Streams<ul>
+<li>See this Activator template introducing the Akka Project implementation in Scala; a Java version will follow shortly.</li>
+<li>Please give Feedback on the issue tracker.</li>
+</ul>
+</li>
+<li>Reactor Composable<ul>
+<li><a href="http://github.com/reactor/reactor" target="_blank" rel="external">Reactor (1.1+)</a></li>
+<li>Current Implementation Draft is being explored for 1.1 and onwards, see Reactor Composable</li>
+</ul>
+</li>
+<li>RxJava<ul>
+<li>Support being prototyped and explored for inclusion in RxJava 1.0<h3 id="Implementors">Implementors</h3></li>
+</ul>
+</li>
+</ul>
+<p>To get started implementing the draft specification, it is recommended to start by reading the README, then taking a look at the Specification then taking a look at the TCK. If you have an issue with any of the above, please take a look at closed issues and then open a new issue if it has not already been answered.</p>
+<h2 id="接口定义">接口定义</h2><p>　　Reactive Streams的接口分为两种，用户使用的接口和实现使用的接口。</p>
+<p>　　用户实现的接口包括Producer、Consumer、Processor，实现使用的接口包括Publisher、Subscriber、Subscription。</p>
+<h3 id="Producer">Producer</h3><p>　　Producer是消息源，底层实现使用Publisher。Producer中有2个接口，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Producer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Publisher&lt;T&gt; <span class="title">getPublisher</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produceTo</span><span class="params">(Consumer&lt;T&gt; consumer)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>getPublisher：获取底层实现的Publisher</li>
+<li>produceTo：将制定的consumer连接到此producer上，在底层实现上需要让consumer去subscribe这个producer的publisher，之后producer产生的stream就能一直被这个consumer消费了，直到以下情况之一：<ul>
+<li>Stream里没有数据了</li>
+<li>Producer抛异常了</li>
+<li>Consumer取消接收更多消息</li>
+</ul>
+</li>
+</ul>
+<h3 id="Consumer">Consumer</h3><p>　　Consumer消费消息的stream，由Subscriber实现，只提供一个getSubscriber接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Consumer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Subscriber&lt;T&gt; <span class="title">getSubscriber</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Processor">Processor</h3><p>　　Processor包含了Producer和Consumer的功能，consume <i>类型的消息，produce <o>类型的消息：</o></i></p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Processor</span>&lt;<span class="title">I</span>, <span class="title">O</span>&gt; <span class="keyword">extends</span> <span class="title">Consumer</span>&lt;<span class="title">I</span>&gt;, <span class="title">Producer</span>&lt;<span class="title">O</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Publisher">Publisher</h3><p>　　Publisher是消息源，一个或多个Subscriber会连接到publisher上接收publisher产生的消息，通过Subscription的<code>requestMore</code>接口来决定是否生成更多消息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Publisher</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(Subscriber&lt;T&gt; subscriber)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Subscriber">Subscriber</h3><p>　　Subscriber从Publisher接收消息，通过Subscription的<code>requestMore</code>接口向publisher提交“需求”，只有当“需求”和publisher的消息都有的情况下才会接收到更多消息。</p>
+<p>　　Subscriber被传送到Publisher进行subscribe时，如果producer接受此subscribe，会调用<code>onSubscribe</code>接口，如果拒绝会调用<code>onError</code>接口。</p>
+<p>　　Publisher在条件满足（有需求且有更多的消息）的情况下调用<code>onNext</code>向Subscriber发送消息。</p>
+<p>　　如果Publisher已经结束产生更多消息，会调用<code>onComplete</code>通知Subscriber。</p>
+<p>　　如果生成消息的stream出了问题无法恢复，也会调用<code>onError</code>通知Sbuscriber。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subscriber</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Subscription subscription)</span></span>;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T element)</span></span>;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span></span>;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable cause)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Subscription">Subscription</h3><p>　　Subscription描述一个Subscriber对一个Publisher的注册，注册成功后才可以通过这个Subscription的<code>requestMore</code>接口向Producer索取更多消息。</p>
+<p>　　可以通过<code>cancel</code>接口取消掉这个subscription，取消时即使Publisher还有更多消息，也会停止向对应的Subscriber发送。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">Subscription</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span></span>;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">requestMore</span><span class="params">(<span class="keyword">int</span> elements)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Mampa里怎么做">Mampa里怎么做</h2><p>TO BE ADDED…</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lyso.me/2014/08/26/backpressure/" data-id="ci7zkadyc004xr158zf78v58i" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive-Streams/">Reactive Streams</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/back-pressure/">back pressure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mampa/">mampa</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开源/">开源</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/异步/">异步</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/08/27/reactor/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          reactor代码浅析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/08/05/fetcher-mampa/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mampa应用之——小米推送Fetcher服务性能调校</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/80后/">80后</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ByteBuf/">ByteBuf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dota/">Dota</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FSM/">FSM</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google-Sync/">Google Sync</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HBase/">HBase</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jekyll/">Jekyll</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MAT/">MAT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/">Netty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PolledByteBufAllocator/">PolledByteBufAllocator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Streams/">Reactive Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/actor模型/">actor模型</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/back-pressure/">back pressure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erlang/">erlang</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/">go</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hbase-batch/">hbase-batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java内存模型/">java内存模型</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java线程模型/">java线程模型</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jhat/">jhat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmap/">jmap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/little-s-law/">little's law</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mampa/">mampa</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/">netty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/queueing-threory/">queueing threory</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reactive-streams/">reactive streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reactor/">reactor</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-pipline/">redis pipline</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/三体/">三体</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/丛林法则/">丛林法则</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/亚军/">亚军</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人生/">人生</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存泄露/">内存泄露</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/创业/">创业</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/利特尔法则/">利特尔法则</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/喻华峰/">喻华峰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米/">小米</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米推送系统/">小米推送系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米羽毛球联赛/">小米羽毛球联赛</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源/">开源</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异步/">异步</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异步HBase客户端/">异步HBase客户端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异步Redis客户端/">异步Redis客户端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排队理论/">排队理论</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无锁/">无锁</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有限状态机/">有限状态机</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/本来生活/">本来生活</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泊松过程/">泊松过程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/现实/">现实</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/理想/">理想</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命/">生命</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/米莱/">米莱</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/羽毛球/">羽毛球</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/翻墙/">翻墙</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/职业规划/">职业规划</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/豆芽/">豆芽</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负指数分布/">负指数分布</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/队列/">队列</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/马尔科夫链/">马尔科夫链</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑暗森林/">黑暗森林</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/80后/" style="font-size: 10px;">80后</a><a href="/tags/ByteBuf/" style="font-size: 10px;">ByteBuf</a><a href="/tags/Dota/" style="font-size: 10px;">Dota</a><a href="/tags/FSM/" style="font-size: 15px;">FSM</a><a href="/tags/Google-Sync/" style="font-size: 10px;">Google Sync</a><a href="/tags/HBase/" style="font-size: 10px;">HBase</a><a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a><a href="/tags/Jekyll/" style="font-size: 10px;">Jekyll</a><a href="/tags/MAT/" style="font-size: 10px;">MAT</a><a href="/tags/NIO/" style="font-size: 10px;">NIO</a><a href="/tags/Netty/" style="font-size: 10px;">Netty</a><a href="/tags/PolledByteBufAllocator/" style="font-size: 10px;">PolledByteBufAllocator</a><a href="/tags/Reactive-Streams/" style="font-size: 10px;">Reactive Streams</a><a href="/tags/Redis/" style="font-size: 10px;">Redis</a><a href="/tags/actor模型/" style="font-size: 15px;">actor模型</a><a href="/tags/back-pressure/" style="font-size: 10px;">back pressure</a><a href="/tags/erlang/" style="font-size: 15px;">erlang</a><a href="/tags/github-pages/" style="font-size: 10px;">github pages</a><a href="/tags/go/" style="font-size: 10px;">go</a><a href="/tags/golang/" style="font-size: 10px;">golang</a><a href="/tags/hbase-batch/" style="font-size: 10px;">hbase-batch</a><a href="/tags/java内存模型/" style="font-size: 15px;">java内存模型</a><a href="/tags/java线程模型/" style="font-size: 15px;">java线程模型</a><a href="/tags/jhat/" style="font-size: 10px;">jhat</a><a href="/tags/jmap/" style="font-size: 10px;">jmap</a><a href="/tags/little-s-law/" style="font-size: 10px;">little's law</a><a href="/tags/mampa/" style="font-size: 15px;">mampa</a><a href="/tags/netty/" style="font-size: 10px;">netty</a><a href="/tags/queueing-threory/" style="font-size: 10px;">queueing threory</a><a href="/tags/reactive-streams/" style="font-size: 10px;">reactive streams</a><a href="/tags/reactor/" style="font-size: 10px;">reactor</a><a href="/tags/redis-pipline/" style="font-size: 10px;">redis pipline</a><a href="/tags/三体/" style="font-size: 12.5px;">三体</a><a href="/tags/丛林法则/" style="font-size: 12.5px;">丛林法则</a><a href="/tags/亚军/" style="font-size: 10px;">亚军</a><a href="/tags/人生/" style="font-size: 12.5px;">人生</a><a href="/tags/内存泄露/" style="font-size: 12.5px;">内存泄露</a><a href="/tags/创业/" style="font-size: 15px;">创业</a><a href="/tags/利特尔法则/" style="font-size: 10px;">利特尔法则</a><a href="/tags/喻华峰/" style="font-size: 10px;">喻华峰</a><a href="/tags/小米/" style="font-size: 10px;">小米</a><a href="/tags/小米推送系统/" style="font-size: 10px;">小米推送系统</a><a href="/tags/小米羽毛球联赛/" style="font-size: 10px;">小米羽毛球联赛</a><a href="/tags/并发/" style="font-size: 20px;">并发</a><a href="/tags/开源/" style="font-size: 17.5px;">开源</a><a href="/tags/异步/" style="font-size: 20px;">异步</a><a href="/tags/异步HBase客户端/" style="font-size: 10px;">异步HBase客户端</a><a href="/tags/异步Redis客户端/" style="font-size: 10px;">异步Redis客户端</a><a href="/tags/排队理论/" style="font-size: 10px;">排队理论</a><a href="/tags/无锁/" style="font-size: 10px;">无锁</a><a href="/tags/有限状态机/" style="font-size: 15px;">有限状态机</a><a href="/tags/本来生活/" style="font-size: 10px;">本来生活</a><a href="/tags/泊松过程/" style="font-size: 10px;">泊松过程</a><a href="/tags/现实/" style="font-size: 10px;">现实</a><a href="/tags/理想/" style="font-size: 10px;">理想</a><a href="/tags/生命/" style="font-size: 10px;">生命</a><a href="/tags/米莱/" style="font-size: 10px;">米莱</a><a href="/tags/羽毛球/" style="font-size: 10px;">羽毛球</a><a href="/tags/翻墙/" style="font-size: 10px;">翻墙</a><a href="/tags/职业规划/" style="font-size: 15px;">职业规划</a><a href="/tags/豆芽/" style="font-size: 10px;">豆芽</a><a href="/tags/负指数分布/" style="font-size: 10px;">负指数分布</a><a href="/tags/队列/" style="font-size: 10px;">队列</a><a href="/tags/马尔科夫链/" style="font-size: 10px;">马尔科夫链</a><a href="/tags/黑暗森林/" style="font-size: 12.5px;">黑暗森林</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">十一月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">一月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">十一月 2010</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/04/02/1/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2015/04/02/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/01/02/douya/">小豆芽表情九连拍</a>
+          </li>
+        
+          <li>
+            <a href="/2014/08/27/reactor/">reactor代码浅析</a>
+          </li>
+        
+          <li>
+            <a href="/2014/08/26/backpressure/">back pressure及reactive streams研究</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 leoyonn<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

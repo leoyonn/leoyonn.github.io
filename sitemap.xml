@@ -2,8 +2,118 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://lyso.me/2014/07/01/bytebuf-memleak/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/06/28/after-dine-with-classmates/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/07/10/who-am-i/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/06/25/ten-years/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/06/27/badminton-second-mi/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2012/11/24/santi-startup/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2011/01/20/zen-for-knot/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2010/11/25/dota-life/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/08/05/fetcher-mampa/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2013/03/21/meet-yuhuafeng-benlai/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2015/04/02/1/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2012/11/24/go-hello-world/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2011/01/06/google-sync/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://lyso.me/2015/04/02/hello-world/</loc>
     <lastmod>2015-04-02T02:22:53.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2015/01/02/douya/</loc>
+    <lastmod>2015-01-03T04:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/08/27/reactor/</loc>
+    <lastmod>2014-08-27T10:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/08/26/backpressure/</loc>
+    <lastmod>2014-08-26T10:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/07/26/queue-threory-littles-law/</loc>
+    <lastmod>2014-07-26T10:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/05/07/setup-this-site/</loc>
+    <lastmod>2014-05-10T10:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/03/10/redis-mampa/</loc>
+    <lastmod>2014-03-20T10:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/03/01/hbase-mampa/</loc>
+    <lastmod>2014-03-10T10:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2013/09/01/disruptor/</loc>
+    <lastmod>2014-03-10T10:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2014/02/01/mampa/</loc>
+    <lastmod>2014-02-10T10:44:12.000Z</lastmod>
   </url>
   
 </urlset>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>追查线上问题之——ByteBuf内存泄露 | Lyso as™ R&amp;D</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近新上线的异步化服务，查看perf-counter完全没有达到理论的QPS，于是开始在线下模拟线上情况做实验，结果总是符合理论推算，无法重现线上的情况，甚至一度怀疑是hbase服务集群扛不住压力导致的。在无计可施时，在亮老师和欧老师的指点下，开启了这段分析之旅，这里做个记录，方便有遇到类似问题的童鞋们有个参照。
+看进程的情况：top[leo@online:~]# top
+top命令查看这个线程的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="追查线上问题之——ByteBuf内存泄露">
+<meta property="og:url" content="http://lyso.me/2014/07/01/bytebuf-memleak/index.html">
+<meta property="og:site_name" content="Lyso as™ R&D">
+<meta property="og:description" content="最近新上线的异步化服务，查看perf-counter完全没有达到理论的QPS，于是开始在线下模拟线上情况做实验，结果总是符合理论推算，无法重现线上的情况，甚至一度怀疑是hbase服务集群扛不住压力导致的。在无计可施时，在亮老师和欧老师的指点下，开启了这段分析之旅，这里做个记录，方便有遇到类似问题的童鞋们有个参照。
+看进程的情况：top[leo@online:~]# top
+top命令查看这个线程的">
+<meta property="og:image" content="http://content.xilu.com/uploadfile/2011/0815/20110815094715719.jpg">
+<meta property="og:image" content="http://lyso.qiniudn.com/memleak.4.png">
+<meta property="og:image" content="http://lyso.qiniudn.com/memleak.1.png">
+<meta property="og:image" content="http://lyso.qiniudn.com/memleak.3.png">
+<meta property="og:image" content="http://lyso.qiniudn.com/memleak.5.png">
+<meta property="og:image" content="http://lyso.qiniudn.com/memleak.6.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="追查线上问题之——ByteBuf内存泄露">
+<meta name="twitter:description" content="最近新上线的异步化服务，查看perf-counter完全没有达到理论的QPS，于是开始在线下模拟线上情况做实验，结果总是符合理论推算，无法重现线上的情况，甚至一度怀疑是hbase服务集群扛不住压力导致的。在无计可施时，在亮老师和欧老师的指点下，开启了这段分析之旅，这里做个记录，方便有遇到类似问题的童鞋们有个参照。
+看进程的情况：top[leo@online:~]# top
+top命令查看这个线程的">
+  
+    <link rel="alternative" href="/atom.xml" title="Lyso as™ R&amp;D" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Lyso as™ R&amp;D</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">理想主义者在现实中的舞步</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="q" value="site:http://lyso.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-bytebuf-memleak" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/07/01/bytebuf-memleak/" class="article-date">
+  <time datetime="2014-07-01T13:22:11.000Z" itemprop="datePublished">2014-07-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      追查线上问题之——ByteBuf内存泄露
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://content.xilu.com/uploadfile/2011/0815/20110815094715719.jpg" alt="leak"></p>
+<p>　　最近新上线的异步化服务，查看perf-counter完全没有达到理论的QPS，于是开始在线下模拟线上情况做实验，结果总是符合理论推算，无法重现线上的情况，甚至一度怀疑是hbase服务集群扛不住压力导致的。在无计可施时，在亮老师和欧老师的指点下，开启了这段分析之旅，这里做个记录，方便有遇到类似问题的童鞋们有个参照。</p>
+<h3 id="看进程的情况：top">看进程的情况：top</h3><p><code>[leo@online:~]# top</code></p>
+<p>top命令查看这个线程的情况，发现内存占用量很大：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Tasks</span>: <span class="string">254 total,   1 running, 232 sleeping,   0 stopped,  21 zombie</span></span><br><span class="line"><span class="attribute">Cpu(s)</span>: <span class="string">22.7%us,  5.3%sy,  0.0%ni, 71.8%id,  0.0%wa,  0.0%hi,  0.3%si,  0.0%st</span></span><br><span class="line"><span class="attribute">Mem</span>: <span class="string"> 32850724k total, 31968708k used,   882016k free,    88052k buffers</span></span><br><span class="line"><span class="attribute">Swap</span>: <span class="string">12582904k total,   953140k used, 11629764k free, 14371656k cached</span></span><br><span class="line"></span><br><span class="line"><span class="r">  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND</span><br><span class="line"><span class="number">13205</span> root      <span class="number">20</span>   <span class="number">0</span> 8120m <span class="number">3.</span>3g  18m S <span class="number">120.7</span> <span class="number">10.7</span>   <span class="number">5890</span>:<span class="number">33</span> java -XX:<span class="keyword">...</span></span><br><span class="line"> <span class="number">5591</span> root      <span class="number">20</span>   <span class="number">0</span> 8835m <span class="number">2.</span>3g <span class="number">9996</span> S <span class="number">33.6</span>  <span class="number">7.5</span>   <span class="number">3491</span>:<span class="number">29</span> java -XX:<span class="keyword">...</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="看gc情况：jstat">看gc情况：jstat</h3><p><code>[leo@online:~]# jstat -gcutil 13205 100 10</code></p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">S0     S1     <span class="keyword">E</span>      <span class="keyword">O</span>      P     YGC     YGCT    FGC    FGCT     GCT   </span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25876</span> <span class="number">24241.376</span> <span class="number">24954.239</span></span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25876</span> <span class="number">24241.376</span> <span class="number">24954.239</span></span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25876</span> <span class="number">24241.376</span> <span class="number">24954.239</span></span><br><span class="line"><span class="number">0.00</span>  <span class="number">97.03</span>  <span class="number">99.56</span>  <span class="number">99.94</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25876</span> <span class="number">24243.470</span> <span class="number">24956.333</span></span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25877</span> <span class="number">24243.470</span> <span class="number">24956.333</span></span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25877</span> <span class="number">24243.470</span> <span class="number">24956.333</span></span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25877</span> <span class="number">24243.470</span> <span class="number">24956.333</span></span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25877</span> <span class="number">24243.470</span> <span class="number">24956.333</span></span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25877</span> <span class="number">24243.470</span> <span class="number">24956.333</span></span><br><span class="line"><span class="number">0.00</span> <span class="number">100.00</span> <span class="number">100.00</span>  <span class="number">99.98</span>  <span class="number">60.00</span>  <span class="number">33453</span>  <span class="number">712.862</span> <span class="number">25877</span> <span class="number">24243.470</span> <span class="number">24956.333</span></span><br></pre></td></tr></table></figure>
+<p>　　不看不知道，一看吓一跳：Eden代、老生代全满了，频繁发生Full GC！  </p>
+<h3 id="看进程内存占用情况：jmap">看进程内存占用情况：jmap</h3><p><code>[leo@online:~]# jmap -histo:live 13205 | less</code></p>
+<figure class="highlight profile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> num     #instances         #bytes  class name</span><br><span class="line">----------------------------------------------</span><br><span class="line">   <span class="number">1</span>:         <span class="number">34943</span>     <span class="number">2675903544</span>  [B</span><br><span class="line">   <span class="number">2</span>:       <span class="number">3611235</span>      <span class="number">194315032</span>  [C</span><br><span class="line">   <span class="number">3</span>:       <span class="number">3622541</span>      <span class="number">115921312</span>  <span class="filename">java.lang.String</span><br><span class="line">   4</span>:       <span class="number">1037136</span>       <span class="number">29288720</span>  [J</span><br><span class="line">   <span class="number">5</span>:        <span class="number">979922</span>       <span class="number">23518128</span>  <span class="filename">java.util.BitSet</span><br><span class="line">   6</span>:        <span class="number">407110</span>       <span class="number">19541280</span>  <span class="filename">com.xiaomi.xmpush.thrift.Target</span><br><span class="line">   7</span>:         <span class="number">96961</span>       <span class="number">16289448</span>  <span class="filename">com.xiaomi.xmpush.thrift.XmPushServerContainer</span><br><span class="line">   8</span>:         <span class="number">70627</span>        <span class="number">9615944</span>  &lt;methodKlass&gt;</span><br><span class="line">   <span class="number">9</span>:         <span class="number">70627</span>        <span class="number">9534712</span>  &lt;constMethodKlass&gt;</span><br><span class="line">  <span class="number">10</span>:        <span class="number">158114</span>        <span class="number">8854384</span>  <span class="filename">com.xiaomi.xmpush.thrift.SubscribeTopicInfo</span><br><span class="line">  11</span>:        <span class="number">239540</span>        <span class="number">7665280</span>  <span class="filename">java.util.HashMap$Entry</span><br><span class="line">  12</span>:         <span class="number">76359</span>        <span class="number">6108720</span>  <span class="filename">com.xiaomi.xmpush.thrift.XmPushBroadcastTopic</span><br><span class="line">  13</span>:          <span class="number">5016</span>        <span class="number">6029160</span>  &lt;constantPoolKlass&gt;</span><br><span class="line">  <span class="number">14</span>:         <span class="number">89860</span>        <span class="number">5358112</span>  &lt;symbolKlass&gt;</span><br><span class="line">  <span class="number">15</span>:         <span class="number">80553</span>        <span class="number">5155392</span>  <span class="filename">com.xiaomi.xmpush.thrift.PushMetaInfo</span><br><span class="line">  16</span>:         <span class="number">69778</span>        <span class="number">5148672</span>  [<span class="filename">Ljava.lang.Object;</span><br><span class="line">  17</span>:         <span class="number">72151</span>        <span class="number">4617664</span>  <span class="filename">com.xiaomi.xmpush.thrift.PushRegistrationInfo</span><br><span class="line">  18</span>:         <span class="number">92951</span>        <span class="number">4461648</span>  <span class="filename">io.netty.util.HashedWheelTimer$HashedWheelTimeout</span><br><span class="line">  19</span>:          <span class="number">5016</span>        <span class="number">4450704</span>  &lt;instanceKlassKlass&gt;</span><br><span class="line">  <span class="number">20</span>:         <span class="number">96884</span>        <span class="number">3875360</span>  <span class="filename">com.xiaomi.xmpush.thrift.XmPushActionFetchMessage</span></span><br></pre></td></tr></table></figure>
+<p>　　有34943个byte[]示例居然占去了2.5G的内存！得好好分析下这里出了什么问题。<span></span></p>
+<h3 id="看进程内存详细占用情况：jmap">看进程内存详细占用情况：jmap</h3><p><code>[leo@online:~]# jmap -dump:format=b,file=/tmp/fetch.13205.bin 13205</code></p>
+<p>　　将内存全部dump到本地文件（还是线上机器），然后压缩一下，传输到远程本地机器，并解压： </p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[leo<span class="variable">@online</span><span class="symbol">:~</span>]<span class="comment"># tar cvzf /tmp/fetch.tar.gz /tmp/fetch.13205.bin</span></span><br><span class="line">[leo<span class="variable">@online</span><span class="symbol">:~</span>]<span class="comment"># scp /tmp/fetch.tar.gz leo<span class="yardoctag">@leohost</span>:/tmp</span></span><br><span class="line">[leo<span class="variable">@leohost</span><span class="symbol">:~</span>]<span class="comment"># tar -xvzf /tmp/fetch.tar.gz</span></span><br></pre></td></tr></table></figure>
+<h3 id="分析内存：mat">分析内存：mat</h3><p>　　jhat和mat可以查看jmap的结果，jhat挺弱，用mat可以在eclipse安装插件，也可以在这里<a href="http://www.eclipse.org/mat/downloads.php" target="_blank" rel="external">下载mat</a>  </p>
+<h4 id="Overview">Overview</h4><p>　　在首页上点击【Open Dump File】，在【Overview】页发现4块大内存占去了绝大部分：<br><img src="http://lyso.qiniudn.com/memleak.4.png" alt="image">  </p>
+<h4 id="Dominator_Tree">Dominator Tree</h4><p>　　在这里可以看得到，前四个是 <code>io.netty.buffer.PoolArena$HeapArena</code> 对象。难道我代码里哪里hold住了这么大的内存？印象中没有申请过啊，赶紧去看看吧。<br><img src="http://lyso.qiniudn.com/memleak.1.png" alt="image"> </p>
+<h4 id="Reference_Tree">Reference Tree</h4><p>　　在任意一个对象上右击，【Path to GC Root】-&gt;【with all references】，可以看到下图，哈哈，找到了自己的代码（<code>com.xiaomi.mampa.redis.utils.Utils</code>）！<br><img src="http://lyso.qiniudn.com/memleak.3.png" alt="image"><br>　　这里有一段这样的代码：<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> ByteBufAllocator bufPool = <span class="keyword">new</span> PooledByteBufAllocator();</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function">ByteBuf <span class="title">allocByteBuf</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> bufPool.<span class="title">buffer</span><span class="params">(initialCapacity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　就是这里的问题了，异步pipeline的客户端Redis-Mampa中在序列化前使用ByteBuf对象暂存指令和参数，这个ByteBuf是基于引用计数的，需要用完之后release。后来跟长者陈述这个问题时，长者一拍大腿“哎呀你不早问我！用netty的东西都得自己申请和释放！”。早问你了我不会像这样记这么<strong><em>深刻</em></strong>^^。<span></span></p>
+<h3 id="修复">修复</h3><p>　　很简单，用完就release呗：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Encode and write this command to the supplied buffer using the new</span><br><span class="line"> * &lt;a href="http://redis.io/topics/protocol"&gt;Unified Request Protocol&lt;/a&gt;.</span><br><span class="line"> *</span><br><span class="line"> * @param buf Buffer to write to.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="literal">void</span> encode(ByteBuf buf) &#123;</span><br><span class="line">    buf<span class="built_in">.</span>writeByte(<span class="string">'*'</span>);</span><br><span class="line">    Utils<span class="built_in">.</span>writeLongAsString(buf, <span class="number">1</span> <span class="subst">+</span> (args <span class="subst">!=</span> <span class="built_in">null</span> <span class="subst">?</span> args<span class="built_in">.</span>count() : <span class="number">0</span>));</span><br><span class="line">    buf<span class="built_in">.</span>writeBytes(Utils<span class="built_in">.</span>CrLf);</span><br><span class="line">    buf<span class="built_in">.</span>writeByte(<span class="string">'$'</span>);</span><br><span class="line">    Utils<span class="built_in">.</span>writeLongAsString(buf, <span class="keyword">type</span><span class="built_in">.</span><span class="built_in">bytes</span><span class="built_in">.</span>length);</span><br><span class="line">    buf<span class="built_in">.</span>writeBytes(Utils<span class="built_in">.</span>CrLf);</span><br><span class="line">    buf<span class="built_in">.</span>writeBytes(<span class="keyword">type</span><span class="built_in">.</span><span class="built_in">bytes</span>);</span><br><span class="line">    buf<span class="built_in">.</span>writeBytes(Utils<span class="built_in">.</span>CrLf);</span><br><span class="line">    <span class="keyword">if</span> (args <span class="subst">!=</span> <span class="built_in">null</span>) &#123;</span><br><span class="line">        buf<span class="built_in">.</span>writeBytes(args<span class="built_in">.</span>buffer());</span><br><span class="line">        args<span class="built_in">.</span>release();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="验证">验证</h3><p>　　好，改完了验证一下。写个循环申请500M内存，分别不release和release，然后sleep住，并用jmap将内存dump出来用mat查看，得到下列两幅图，验证成功。<br><img src="http://lyso.qiniudn.com/memleak.5.png" alt="不进行release的内存使用"><br><img src="http://lyso.qiniudn.com/memleak.6.png" alt="进行release的内存使用"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lyso.me/2014/07/01/bytebuf-memleak/" data-id="ci7zkady50048r158ejjot53b" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ByteBuf/">ByteBuf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MAT/">MAT</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NIO/">NIO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Netty/">Netty</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PolledByteBufAllocator/">PolledByteBufAllocator</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jhat/">jhat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jmap/">jmap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存泄露/">内存泄露</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/07/10/who-am-i/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          我是谁
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/06/28/after-dine-with-classmates/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">餐后小记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/80后/">80后</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ByteBuf/">ByteBuf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dota/">Dota</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FSM/">FSM</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google-Sync/">Google Sync</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HBase/">HBase</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jekyll/">Jekyll</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MAT/">MAT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/">Netty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PolledByteBufAllocator/">PolledByteBufAllocator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Streams/">Reactive Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/actor模型/">actor模型</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/back-pressure/">back pressure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erlang/">erlang</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/">go</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hbase-batch/">hbase-batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java内存模型/">java内存模型</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java线程模型/">java线程模型</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jhat/">jhat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmap/">jmap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/little-s-law/">little's law</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mampa/">mampa</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/">netty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/queueing-threory/">queueing threory</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reactive-streams/">reactive streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reactor/">reactor</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-pipline/">redis pipline</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/三体/">三体</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/丛林法则/">丛林法则</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/亚军/">亚军</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人生/">人生</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存泄露/">内存泄露</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/创业/">创业</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/利特尔法则/">利特尔法则</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/喻华峰/">喻华峰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米/">小米</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米推送系统/">小米推送系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米羽毛球联赛/">小米羽毛球联赛</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源/">开源</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异步/">异步</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异步HBase客户端/">异步HBase客户端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异步Redis客户端/">异步Redis客户端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排队理论/">排队理论</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无锁/">无锁</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有限状态机/">有限状态机</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/本来生活/">本来生活</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泊松过程/">泊松过程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/现实/">现实</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/理想/">理想</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命/">生命</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/米莱/">米莱</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/羽毛球/">羽毛球</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/翻墙/">翻墙</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/职业规划/">职业规划</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/豆芽/">豆芽</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负指数分布/">负指数分布</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/队列/">队列</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/马尔科夫链/">马尔科夫链</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑暗森林/">黑暗森林</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/80后/" style="font-size: 10px;">80后</a><a href="/tags/ByteBuf/" style="font-size: 10px;">ByteBuf</a><a href="/tags/Dota/" style="font-size: 10px;">Dota</a><a href="/tags/FSM/" style="font-size: 15px;">FSM</a><a href="/tags/Google-Sync/" style="font-size: 10px;">Google Sync</a><a href="/tags/HBase/" style="font-size: 10px;">HBase</a><a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a><a href="/tags/Jekyll/" style="font-size: 10px;">Jekyll</a><a href="/tags/MAT/" style="font-size: 10px;">MAT</a><a href="/tags/NIO/" style="font-size: 10px;">NIO</a><a href="/tags/Netty/" style="font-size: 10px;">Netty</a><a href="/tags/PolledByteBufAllocator/" style="font-size: 10px;">PolledByteBufAllocator</a><a href="/tags/Reactive-Streams/" style="font-size: 10px;">Reactive Streams</a><a href="/tags/Redis/" style="font-size: 10px;">Redis</a><a href="/tags/actor模型/" style="font-size: 15px;">actor模型</a><a href="/tags/back-pressure/" style="font-size: 10px;">back pressure</a><a href="/tags/erlang/" style="font-size: 15px;">erlang</a><a href="/tags/github-pages/" style="font-size: 10px;">github pages</a><a href="/tags/go/" style="font-size: 10px;">go</a><a href="/tags/golang/" style="font-size: 10px;">golang</a><a href="/tags/hbase-batch/" style="font-size: 10px;">hbase-batch</a><a href="/tags/java内存模型/" style="font-size: 15px;">java内存模型</a><a href="/tags/java线程模型/" style="font-size: 15px;">java线程模型</a><a href="/tags/jhat/" style="font-size: 10px;">jhat</a><a href="/tags/jmap/" style="font-size: 10px;">jmap</a><a href="/tags/little-s-law/" style="font-size: 10px;">little's law</a><a href="/tags/mampa/" style="font-size: 15px;">mampa</a><a href="/tags/netty/" style="font-size: 10px;">netty</a><a href="/tags/queueing-threory/" style="font-size: 10px;">queueing threory</a><a href="/tags/reactive-streams/" style="font-size: 10px;">reactive streams</a><a href="/tags/reactor/" style="font-size: 10px;">reactor</a><a href="/tags/redis-pipline/" style="font-size: 10px;">redis pipline</a><a href="/tags/三体/" style="font-size: 12.5px;">三体</a><a href="/tags/丛林法则/" style="font-size: 12.5px;">丛林法则</a><a href="/tags/亚军/" style="font-size: 10px;">亚军</a><a href="/tags/人生/" style="font-size: 12.5px;">人生</a><a href="/tags/内存泄露/" style="font-size: 12.5px;">内存泄露</a><a href="/tags/创业/" style="font-size: 15px;">创业</a><a href="/tags/利特尔法则/" style="font-size: 10px;">利特尔法则</a><a href="/tags/喻华峰/" style="font-size: 10px;">喻华峰</a><a href="/tags/小米/" style="font-size: 10px;">小米</a><a href="/tags/小米推送系统/" style="font-size: 10px;">小米推送系统</a><a href="/tags/小米羽毛球联赛/" style="font-size: 10px;">小米羽毛球联赛</a><a href="/tags/并发/" style="font-size: 20px;">并发</a><a href="/tags/开源/" style="font-size: 17.5px;">开源</a><a href="/tags/异步/" style="font-size: 20px;">异步</a><a href="/tags/异步HBase客户端/" style="font-size: 10px;">异步HBase客户端</a><a href="/tags/异步Redis客户端/" style="font-size: 10px;">异步Redis客户端</a><a href="/tags/排队理论/" style="font-size: 10px;">排队理论</a><a href="/tags/无锁/" style="font-size: 10px;">无锁</a><a href="/tags/有限状态机/" style="font-size: 15px;">有限状态机</a><a href="/tags/本来生活/" style="font-size: 10px;">本来生活</a><a href="/tags/泊松过程/" style="font-size: 10px;">泊松过程</a><a href="/tags/现实/" style="font-size: 10px;">现实</a><a href="/tags/理想/" style="font-size: 10px;">理想</a><a href="/tags/生命/" style="font-size: 10px;">生命</a><a href="/tags/米莱/" style="font-size: 10px;">米莱</a><a href="/tags/羽毛球/" style="font-size: 10px;">羽毛球</a><a href="/tags/翻墙/" style="font-size: 10px;">翻墙</a><a href="/tags/职业规划/" style="font-size: 15px;">职业规划</a><a href="/tags/豆芽/" style="font-size: 10px;">豆芽</a><a href="/tags/负指数分布/" style="font-size: 10px;">负指数分布</a><a href="/tags/队列/" style="font-size: 10px;">队列</a><a href="/tags/马尔科夫链/" style="font-size: 10px;">马尔科夫链</a><a href="/tags/黑暗森林/" style="font-size: 12.5px;">黑暗森林</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">十一月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">一月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">十一月 2010</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/04/02/1/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2015/04/02/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/01/02/douya/">小豆芽表情九连拍</a>
+          </li>
+        
+          <li>
+            <a href="/2014/08/27/reactor/">reactor代码浅析</a>
+          </li>
+        
+          <li>
+            <a href="/2014/08/26/backpressure/">back pressure及reactive streams研究</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 leoyonn<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
