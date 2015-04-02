@@ -4,12 +4,16 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>小米异步消息处理架构：mampa应用篇之——HBase-mampa | Lyso as™ R&amp;D</title>
+    <title>Lyso as™ R&amp;D</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="leoyonn">
     
-    <meta name="description" content="TO BE ADDED…">
+    <meta name="description" content="&amp;lt;?prettify?&amp;gt;
+
+code here
+/**
+ * Notify this component that an {@link Event} is ready to be processed and {@link Consumer#accept accept} {@code on">
     
     
     
@@ -72,15 +76,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/03/01/hbase-mampa/" title="小米异步消息处理架构：mampa应用篇之——HBase-mampa" itemprop="url">小米异步消息处理架构：mampa应用篇之——HBase-mampa</a>
+      <a href="/2015/04/02/1/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
     
       <a href="http://lyso.me" title="leoyonn">leoyonn</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-03-01T10:44:12.000Z" itemprop="datePublished">2014-03-01</time>
-    更新日期:<time datetime="2014-03-10T10:44:12.000Z" itemprop="dateModified">2014-03-10</time>
+    <time datetime="2015-04-02T05:32:04.000Z" itemprop="datePublished">2015-04-02</time>
+    更新日期:<time datetime="2015-04-02T05:32:04.000Z" itemprop="dateModified">2015-04-02</time>
     
   </p>
 </header>
@@ -89,17 +93,33 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TO_BE_ADDED…"><span class="toc-number">1.</span> <span class="toc-text">TO BE ADDED…</span></a></li></ol>
+		
 		</div>
 		
-		<h2 id="TO_BE_ADDED…">TO BE ADDED…</h2>  
+		<p>&lt;?prettify?&gt;</p>
+<pre class="prettyprint">
+code here
+/**
+ * Notify this component that an {@link Event} is ready to be processed and {@link Consumer#accept accept} {@code onComplete} after dispatching.
+ *
+ * @param key
+ *         The key to be matched by {@link Selector Selectors}
+ * @param ev
+ *         The {@literal Event}
+ * @param onComplete
+ *         The callback {@link Consumer}
+ * @param <e>
+ *         The type of the {@link Event}
+ *
+ * @return {@literal this}
+ */
+<e extends="" event<?="">> Observable notify(Object key, E ev, Consumer<e> onComplete);
+</e></e></e></pre>
+
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> Notify this component that an &#123;<span class="comment">@link Event&#125; is ready to be processed and &#123;@link Consumer#accept accept&#125; &#123;@code onComplete&#125; after dispatching.</span></span><br><span class="line"> <span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@param key</span></span><br><span class="line"> <span class="keyword">*</span>         The key to be matched by &#123;<span class="comment">@link Selector Selectors&#125;</span></span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@param ev</span></span><br><span class="line"> <span class="keyword">*</span>         The &#123;<span class="comment">@literal Event&#125;</span></span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@param onComplete</span></span><br><span class="line"> <span class="keyword">*</span>         The callback &#123;<span class="comment">@link Consumer&#125;</span></span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@param &lt;E&gt;</span></span><br><span class="line"> <span class="keyword">*</span>         The type of the &#123;<span class="comment">@link Event&#125;</span></span><br><span class="line"> <span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@return &#123;@literal this&#125;</span></span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="variable">&lt;E extends Event&lt;?&gt;</span>&gt; Observable notify(Object key, E ev, Consumer<span class="variable">&lt;E&gt;</span> onComplete);</span><br></pre></td></tr></table></figure>
+  
 	</div>
 		<footer class="article-footer clearfix">
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/FSM/">FSM</a><a href="/tags/HBase/">HBase</a><a href="/tags/actor模型/">actor模型</a><a href="/tags/erlang/">erlang</a><a href="/tags/hbase-batch/">hbase-batch</a><a href="/tags/java内存模型/">java内存模型</a><a href="/tags/java线程模型/">java线程模型</a><a href="/tags/并发/">并发</a><a href="/tags/开源/">开源</a><a href="/tags/异步/">异步</a><a href="/tags/异步HBase客户端/">异步HBase客户端</a><a href="/tags/有限状态机/">有限状态机</a>
-  </div>
 
 
 
@@ -133,19 +153,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/03/10/redis-mampa/" title="小米异步消息处理架构：mampa应用篇之——Redis-mampa">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  小米异步消息处理架构：mampa应用篇之——Redis-mampa</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/02/01/mampa/"  title="小米异步消息处理架构：mampa">
+<a href="/2015/01/02/douya/"  title="小豆芽表情九连拍">
  <strong>NEXT:</strong><br/> 
- <span>小米异步消息处理架构：mampa
+ <span>小豆芽表情九连拍
 </span>
 </a>
 </div>
@@ -158,7 +170,7 @@
         <h1 class="title">文章评论</h1>
 
         <!-- 多说评论框 start -->
-        <div class="ds-thread" data-thread-key="2014/03/01/hbase-mampa/" data-title="小米异步消息处理架构：mampa应用篇之——HBase-mampa" data-url="http://lyso.me/2014/03/01/hbase-mampa/"></div>
+        <div class="ds-thread" data-thread-key="2015/04/02/1/" data-title="" data-url="http://lyso.me/2015/04/02/1/"></div>
         <!-- 多说评论框 end -->
 
         <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -182,7 +194,7 @@
       
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TO_BE_ADDED…"><span class="toc-number">1.</span> <span class="toc-text">TO BE ADDED…</span></a></li></ol>
+  
   </div>
 
 <div id="asidepart">
