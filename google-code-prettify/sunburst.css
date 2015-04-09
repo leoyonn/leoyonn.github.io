@@ -28,8 +28,8 @@ pre.prettyprint {
 	margin: 1em auto;
 	padding: 1em;
 	white-space: pre-wrap;
-    font-family: consolas;
-    font-face: 12px;
+    font-family: monospace;
+    font-size: 10px;
 }
 
 
