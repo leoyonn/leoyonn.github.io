@@ -493,7 +493,7 @@ MathJax.Hub.Config({
     <link href="http://lyso.me/2014/07/10/who-am-i/"/>
     <id>http://lyso.me/2014/07/10/who-am-i/</id>
     <published>2014-07-10T14:11:40.000Z</published>
-    <updated>2015-11-05T06:30:51.000Z</updated>
+    <updated>2015-11-05T06:39:04.000Z</updated>
     <content type="html"><![CDATA[<h2 id="名片">名片</h2><ul>
 <li><em>Lyso什么意思？</em> 小时候给自己起网名，本来就想叫ly的，发现要么是闲俩字太短，要么是ly被占用了。于是我就开始分析自己的名字，有三氧化硫之拆解义，故而拼凑上一个so3，于是lyso3就成了网名。但后来疑问也有了，lyso是谁？lyso1和lyso2呢？就干脆叫lyso吧。有朋友发音[li:seu]，正确发音是[laiseu]，同“来搜”。</li>
 <li><em>性别</em> 男</li>
@@ -530,9 +530,11 @@ MathJax.Hub.Config({
 <li>架构搭建</li>
 <li>团队组建</li>
 <li>流程及工具建立、推进</li>
-<li>协助融资<h3 id="2013-04_~_2015-05_|_小米科技">2013.04 ~ 2015.05 | <em>小米科技</em></h3></li>
+<li>协助融资</li>
 </ul>
 </li>
+</ul>
+<h3 id="2013-04_~_2015-05_|_小米科技">2013.04 ~ 2015.05 | <em>小米科技</em></h3><ul>
 <li><em>小米推送系统</em><ul>
 <li>同时在线用户数<em>70,000,000</em>+，日活跃用户数<em>100,000,000</em>+，日发消息量<em>600,000,000</em>+</li>
 <li>架构设计及研发主力(初期 2 R&amp;D之一)，包括设计与开发：接口层(HTTP/长连接)、业务逻辑层、存储层(cache/mysql/hbase等schema设计及client端优化)、统计监控及辅助工具等</li>
