@@ -493,7 +493,7 @@ MathJax.Hub.Config({
     <link href="http://lyso.me/2014/07/10/who-am-i/"/>
     <id>http://lyso.me/2014/07/10/who-am-i/</id>
     <published>2014-07-10T14:11:40.000Z</published>
-    <updated>2015-11-05T06:26:34.000Z</updated>
+    <updated>2015-11-05T06:30:51.000Z</updated>
     <content type="html"><![CDATA[<h2 id="名片">名片</h2><ul>
 <li><em>Lyso什么意思？</em> 小时候给自己起网名，本来就想叫ly的，发现要么是闲俩字太短，要么是ly被占用了。于是我就开始分析自己的名字，有三氧化硫之拆解义，故而拼凑上一个so3，于是lyso3就成了网名。但后来疑问也有了，lyso是谁？lyso1和lyso2呢？就干脆叫lyso吧。有朋友发音[li:seu]，正确发音是[laiseu]，同“来搜”。</li>
 <li><em>性别</em> 男</li>
@@ -676,6 +676,7 @@ MathJax.Hub.Config({
 <li>根据项目需求便利撰写些电子书共享出来，比如 <a href="http://download.csdn.net/detail/lyso1/1999537" target="_blank" rel="external">独立游戏开发指南之开源免费游戏引擎篇</a></li>
 <li>组织公司内技术分享，并提供给母公司其他部门</li>
 <li>开源项目及公共基础框架开发（参见前述）</li>
+<li>送姜技术分享会</li>
 <li>本博客</li>
 </ul>
 ]]></content>
