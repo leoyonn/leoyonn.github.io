@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Disruptor剖析 | Lyso™</title>
+    <title>亿万并发的背后 | Lyso™</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="leoyonn">
+    
+    <meta name="description" content="送姜技术分享会在送姜组建产品研发部的过程中，举办了几期送姜技术分享会（SJTC），其中第二期我主讲，总结之前在网易有道/小米做高并发服务积累的一些经验和认知，分享内容汇总如下。">
     
     
     
@@ -75,15 +77,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2013/09/01/disruptor/" title="Disruptor剖析" itemprop="url">Disruptor剖析</a>
+      <a href="/2015/07/01/concurrency-behind-1g/" title="亿万并发的背后" itemprop="url">亿万并发的背后</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://lyso.me" title="leoyonn">leoyonn</a>
     </p>
   <p class="article-time">
-    <time datetime="2013-09-01T10:44:12.000Z" itemprop="datePublished">2013-09-01</time>
-    更新日期:<time datetime="2014-03-10T10:44:12.000Z" itemprop="dateModified">2014-03-10</time>
+    <time datetime="2015-07-01T10:44:12.000Z" itemprop="datePublished">2015-07-01</time>
+    更新日期:<time datetime="2014-07-01T10:44:12.000Z" itemprop="dateModified">2014-07-01</time>
     
   </p>
 </header>
@@ -92,16 +94,19 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#送姜技术分享会"><span class="toc-number">1.</span> <span class="toc-text">送姜技术分享会</span></a></li></ol>
 		</div>
 		
-		  
+		<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
+<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在送姜组建产品研发部的过程中，举办了几期送姜技术分享会（SJTC），其中第二期我主讲，总结之前在网易有道/小米做高并发服务积累的一些经验和认知，分享内容汇总如下。</p>
+<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.002.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.003.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.004.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.005.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.006.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.007.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.008.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.009.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.011.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.012.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.013.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.014.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.015.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.016.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.017.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.018.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.019.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.020.jpeg" alt="concurrency"></p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/并发/">并发</a><a href="/tags/开源/">开源</a><a href="/tags/异步/">异步</a><a href="/tags/无锁/">无锁</a><a href="/tags/队列/">队列</a>
+  <span></span> <a href="/tags/FSM/">FSM</a><a href="/tags/actor模型/">actor模型</a><a href="/tags/erlang/">erlang</a><a href="/tags/java内存模型/">java内存模型</a><a href="/tags/java线程模型/">java线程模型</a><a href="/tags/并发/">并发</a><a href="/tags/开源/">开源</a><a href="/tags/异步/">异步</a><a href="/tags/有限状态机/">有限状态机</a>
   </div>
 
 
@@ -137,18 +142,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2014/02/01/mampa/" title="小米异步消息处理架构：mampa">
+ <a href="/2015/11/12/resolution/" title="图文排版：应该用什么样尺寸的图片？">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  小米异步消息处理架构：mampa</span>
+  图文排版：应该用什么样尺寸的图片？</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2013/03/21/meet-yuhuafeng-benlai/"  title="初见喻华峰">
+<a href="/2015/01/02/douya/"  title="小豆芽表情九连拍">
  <strong>NEXT:</strong><br/> 
- <span>初见喻华峰
+ <span>小豆芽表情九连拍
 </span>
 </a>
 </div>
@@ -161,7 +166,7 @@
         <h1 class="title">文章评论</h1>
 
         <!-- 多说评论框 start -->
-        <div class="ds-thread" data-thread-key="2013/09/01/disruptor/" data-title="Disruptor剖析" data-url="http://lyso.me/2013/09/01/disruptor/"></div>
+        <div class="ds-thread" data-thread-key="2015/07/01/concurrency-behind-1g/" data-title="亿万并发的背后" data-url="http://lyso.me/2015/07/01/concurrency-behind-1g/"></div>
         <!-- 多说评论框 end -->
 
         <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -185,7 +190,7 @@
       
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#送姜技术分享会"><span class="toc-number">1.</span> <span class="toc-text">送姜技术分享会</span></a></li></ol>
   </div>
 
 <div id="asidepart">
