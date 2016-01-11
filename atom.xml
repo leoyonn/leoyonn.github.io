@@ -4,7 +4,7 @@
   <subtitle><![CDATA[理想主义者在现实中的舞步]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://lyso.me/"/>
-  <updated>2015-12-18T10:44:12.000Z</updated>
+  <updated>2016-01-06T10:44:12.000Z</updated>
   <id>http://lyso.me/</id>
   
   <author>
@@ -13,6 +13,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[我的决策理论体系]]></title>
+    <link href="http://lyso.me/2016/01/05/mind-arch/"/>
+    <id>http://lyso.me/2016/01/05/mind-arch/</id>
+    <published>2016-01-05T10:44:12.000Z</published>
+    <updated>2016-01-06T10:44:12.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://b.hiphotos.baidu.com/zhidao/pic/item/0dd7912397dda1440ce49018b0b7d0a20df486af.jpg" alt="mampa"></p>
+<h1 id="源">源</h1><h1 id="道">道</h1><h1 id="法">法</h1><h1 id="术">术</h1><h1 id="器">器</h1><h1 id="势">势</h1>]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://b.hiphotos.baidu.com/zhidao/pic/item/0dd7912397dda1440ce49018b0b7d0a20df486af.jpg" alt="mampa"></p>
+<h1 id="源">源</h1><h1]]>
+    </summary>
+    
+      <category term="世界观" scheme="http://lyso.me/tags/%E4%B8%96%E7%95%8C%E8%A7%82/"/>
+    
+      <category term="事上练" scheme="http://lyso.me/tags/%E4%BA%8B%E4%B8%8A%E7%BB%83/"/>
+    
+      <category term="人生观" scheme="http://lyso.me/tags/%E4%BA%BA%E7%94%9F%E8%A7%82/"/>
+    
+      <category term="价值观" scheme="http://lyso.me/tags/%E4%BB%B7%E5%80%BC%E8%A7%82/"/>
+    
+      <category term="决策" scheme="http://lyso.me/tags/%E5%86%B3%E7%AD%96/"/>
+    
+      <category term="对错观" scheme="http://lyso.me/tags/%E5%AF%B9%E9%94%99%E8%A7%82/"/>
+    
+      <category term="心即理" scheme="http://lyso.me/tags/%E5%BF%83%E5%8D%B3%E7%90%86/"/>
+    
+      <category term="源道法术器势" scheme="http://lyso.me/tags/%E6%BA%90%E9%81%93%E6%B3%95%E6%9C%AF%E5%99%A8%E5%8A%BF/"/>
+    
+      <category term="知行合一" scheme="http://lyso.me/tags/%E7%9F%A5%E8%A1%8C%E5%90%88%E4%B8%80/"/>
+    
+      <category term="阳明心血" scheme="http://lyso.me/tags/%E9%98%B3%E6%98%8E%E5%BF%83%E8%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[创业这大半年]]></title>
@@ -207,6 +242,41 @@
   </entry>
   
   <entry>
+    <title><![CDATA[亿万并发的背后]]></title>
+    <link href="http://lyso.me/2015/07/01/concurrency-behind-1g/"/>
+    <id>http://lyso.me/2015/07/01/concurrency-behind-1g/</id>
+    <published>2015-07-01T10:44:12.000Z</published>
+    <updated>2015-07-01T10:44:12.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
+<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品研发部的过程中，举办了几期送姜技术分享会（SJTC），其中第二期我主讲，总结之前在网易有道/小米做高并发服务积累的一些经验和认知，分享内容汇总如下。</p>
+<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.002.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.003.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.004.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.005.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.006.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.007.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.008.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.009.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.011.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.012.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.013.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.014.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.015.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.016.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.017.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.018.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.019.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.020.jpeg" alt="concurrency"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
+<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品]]>
+    </summary>
+    
+      <category term="FSM" scheme="http://lyso.me/tags/FSM/"/>
+    
+      <category term="actor模型" scheme="http://lyso.me/tags/actor%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="erlang" scheme="http://lyso.me/tags/erlang/"/>
+    
+      <category term="java内存模型" scheme="http://lyso.me/tags/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="java线程模型" scheme="http://lyso.me/tags/java%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="并发" scheme="http://lyso.me/tags/%E5%B9%B6%E5%8F%91/"/>
+    
+      <category term="开源" scheme="http://lyso.me/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="异步" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5/"/>
+    
+      <category term="有限状态机" scheme="http://lyso.me/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[生命的感触]]></title>
     <link href="http://lyso.me/2015/07/01/about-life/"/>
     <id>http://lyso.me/2015/07/01/about-life/</id>
@@ -281,41 +351,6 @@
       <category term="生命" scheme="http://lyso.me/tags/%E7%94%9F%E5%91%BD/"/>
     
       <category term="生活" scheme="http://lyso.me/tags/%E7%94%9F%E6%B4%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[亿万并发的背后]]></title>
-    <link href="http://lyso.me/2015/07/01/concurrency-behind-1g/"/>
-    <id>http://lyso.me/2015/07/01/concurrency-behind-1g/</id>
-    <published>2015-07-01T10:44:12.000Z</published>
-    <updated>2015-07-01T10:44:12.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
-<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品研发部的过程中，举办了几期送姜技术分享会（SJTC），其中第二期我主讲，总结之前在网易有道/小米做高并发服务积累的一些经验和认知，分享内容汇总如下。</p>
-<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.002.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.003.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.004.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.005.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.006.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.007.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.008.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.009.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.011.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.012.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.013.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.014.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.015.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.016.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.017.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.018.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.019.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.020.jpeg" alt="concurrency"></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
-<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品]]>
-    </summary>
-    
-      <category term="FSM" scheme="http://lyso.me/tags/FSM/"/>
-    
-      <category term="actor模型" scheme="http://lyso.me/tags/actor%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="erlang" scheme="http://lyso.me/tags/erlang/"/>
-    
-      <category term="java内存模型" scheme="http://lyso.me/tags/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="java线程模型" scheme="http://lyso.me/tags/java%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="并发" scheme="http://lyso.me/tags/%E5%B9%B6%E5%8F%91/"/>
-    
-      <category term="开源" scheme="http://lyso.me/tags/%E5%BC%80%E6%BA%90/"/>
-    
-      <category term="异步" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5/"/>
-    
-      <category term="有限状态机" scheme="http://lyso.me/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/"/>
     
   </entry>
   
@@ -1397,29 +1432,6 @@ MathJax.Hub.Config({
       <category term="异步" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5/"/>
     
       <category term="有限状态机" scheme="http://lyso.me/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Disruptor剖析]]></title>
-    <link href="http://lyso.me/2013/09/01/disruptor/"/>
-    <id>http://lyso.me/2013/09/01/disruptor/</id>
-    <published>2013-09-01T10:44:12.000Z</published>
-    <updated>2014-03-10T10:44:12.000Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="并发" scheme="http://lyso.me/tags/%E5%B9%B6%E5%8F%91/"/>
-    
-      <category term="开源" scheme="http://lyso.me/tags/%E5%BC%80%E6%BA%90/"/>
-    
-      <category term="异步" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5/"/>
-    
-      <category term="无锁" scheme="http://lyso.me/tags/%E6%97%A0%E9%94%81/"/>
-    
-      <category term="队列" scheme="http://lyso.me/tags/%E9%98%9F%E5%88%97/"/>
     
   </entry>
   
