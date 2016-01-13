@@ -77,17 +77,17 @@
   </url>
   
   <url>
+    <loc>http://lyso.me/2014/07/01/bytebuf-memleak/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://lyso.me/2011/01/20/zen-for-knot/</loc>
     <lastmod>2015-04-02T02:46:57.000Z</lastmod>
   </url>
   
   <url>
     <loc>http://lyso.me/2010/11/25/dota-life/</loc>
-    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lyso.me/2014/07/01/bytebuf-memleak/</loc>
     <lastmod>2015-04-02T02:46:57.000Z</lastmod>
   </url>
   
@@ -154,6 +154,11 @@
   <url>
     <loc>http://lyso.me/2012/09/01/rec-sys/</loc>
     <lastmod>2012-09-10T10:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2008/07/01/2008-graduate/</loc>
+    <lastmod>2008-07-01T10:44:12.000Z</lastmod>
   </url>
   
 </urlset>
