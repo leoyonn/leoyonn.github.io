@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>亿万并发的背后 | Lyso™</title>
+    <title>网易八方图像滤镜初版原理介绍 | Lyso™</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="leoyonn">
     
-    <meta name="description" content="送姜技术分享会在组建送姜产品研发部的过程中，举办了几期送姜技术分享会（SJTC），其中第二期我主讲，总结之前在网易有道/小米做高并发服务积累的一些经验和认知，分享内容汇总如下。">
+    <meta name="description" content="">
     
     
     
@@ -89,15 +89,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/07/01/concurrency-behind-1g/" title="亿万并发的背后" itemprop="url">亿万并发的背后</a>
+      <a href="/2011/05/27/image-filter/" title="网易八方图像滤镜初版原理介绍" itemprop="url">网易八方图像滤镜初版原理介绍</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://lyso.me" title="leoyonn">leoyonn</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-07-01T10:44:12.000Z" itemprop="datePublished">2015-07-01</time>
-    更新日期:<time datetime="2015-07-01T10:44:12.000Z" itemprop="dateModified">2015-07-01</time>
+    <time datetime="2011-05-27T10:44:12.000Z" itemprop="datePublished">2011-05-27</time>
+    更新日期:<time datetime="2011-05-27T10:44:12.000Z" itemprop="dateModified">2011-05-27</time>
     
   </p>
 </header>
@@ -106,19 +106,17 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#送姜技术分享会"><span class="toc-number">1.</span> <span class="toc-text">送姜技术分享会</span></a></li></ol>
+		
 		</div>
 		
-		<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
-<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品研发部的过程中，举办了几期送姜技术分享会（SJTC），其中第二期我主讲，总结之前在网易有道/小米做高并发服务积累的一些经验和认知，分享内容汇总如下。</p>
-<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.002.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.003.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.004.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.005.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.006.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.007.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.008.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.009.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.011.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.012.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.013.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.014.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.015.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.016.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.017.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.018.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.019.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.020.jpeg" alt="concurrency"></p>
+		<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.01.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.02.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.03.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.04.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.05.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.06.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.07.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.08.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.09.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.10.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.11.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.12.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.13.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.14.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.15.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.16.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.17.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.18.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.19.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.20.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.21.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.22.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.23.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.24.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.25.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.26.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.27.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.28.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.29.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.30.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.31.jpg" alt="image-filter"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/cube.ps.32.jpg" alt="image-filter"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/FSM/">FSM</a><a href="/tags/actor模型/">actor模型</a><a href="/tags/erlang/">erlang</a><a href="/tags/java内存模型/">java内存模型</a><a href="/tags/java线程模型/">java线程模型</a><a href="/tags/并发/">并发</a><a href="/tags/开源/">开源</a><a href="/tags/异步/">异步</a><a href="/tags/有限状态机/">有限状态机</a>
+  <span></span> <a href="/tags/图像处理/">图像处理</a><a href="/tags/滤镜/">滤镜</a><a href="/tags/网易八方/">网易八方</a>
   </div>
 
 
@@ -154,18 +152,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/07/01/about-life/" title="生命的感触">
+ <a href="/2011/07/01/2011-graduate/" title="没有剧终，已在路上">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  生命的感触</span>
+  没有剧终，已在路上</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/01/02/douya/"  title="小豆芽表情九连拍">
+<a href="/2011/01/20/zen-for-knot/"  title="望禅解结">
  <strong>NEXT:</strong><br/> 
- <span>小豆芽表情九连拍
+ <span>望禅解结
 </span>
 </a>
 </div>
@@ -178,7 +176,7 @@
         <h1 class="title">文章评论</h1>
 
         <!-- 多说评论框 start -->
-        <div class="ds-thread" data-thread-key="2015/07/01/concurrency-behind-1g/" data-title="亿万并发的背后" data-url="http://lyso.me/2015/07/01/concurrency-behind-1g/"></div>
+        <div class="ds-thread" data-thread-key="2011/05/27/image-filter/" data-title="网易八方图像滤镜初版原理介绍" data-url="http://lyso.me/2011/05/27/image-filter/"></div>
         <!-- 多说评论框 end -->
 
         <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -202,7 +200,7 @@
       
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#送姜技术分享会"><span class="toc-number">1.</span> <span class="toc-text">送姜技术分享会</span></a></li></ol>
+  
   </div>
 
 <div id="asidepart">
