@@ -1250,6 +1250,8 @@ MathJax.Hub.Config({
     
       <category term="团队" scheme="http://lyso.me/tags/%E5%9B%A2%E9%98%9F/"/>
     
+      <category term="成长" scheme="http://lyso.me/tags/%E6%88%90%E9%95%BF/"/>
+    
       <category term="技术" scheme="http://lyso.me/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="效率" scheme="http://lyso.me/tags/%E6%95%88%E7%8E%87/"/>
