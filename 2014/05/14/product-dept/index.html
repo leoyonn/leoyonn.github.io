@@ -1,0 +1,420 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>内部信：致产品研发部的小伙伴们 | Lyso™</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="leoyonn">
+    
+    <meta name="description" content="各位好，
+很期待即将与大家共事，一起在送姜打造业界一流的产品，同时也是更重要的，把我们自己打造成一流的团队。本周三开始，我将全职投入到送姜产品技术部的工作中来，7X24为大家服务，大家有任何建议和意见随时提出。
+届时我们要做的首件要事就是讨论和制定重构方案。在此之前我们需要做好准备：
+
+公司lead">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/leo.favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/Tinny.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/Tinny.jpg">
+    
+
+	
+	<!--link href="http://cdn.bootcss.com/highlight.js/8.2/styles/railscasts.min.css" rel="stylesheet"-->
+    <link href="/google-code-prettify/sunburst.css" type="text/css" rel="stylesheet" />
+	<!--script src="http://cdn.bootcss.com/highlight.js/8.2/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script-->
+	
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?21ed113358908026c3eca175044567d9";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+    
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Lyso™" title="Lyso™"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lyso™">Lyso™</a></h1>
+				<h2 class="blog-motto">理想主义者在现实中的舞步</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+                    <ul>
+					 
+						<li><a href="/">۩</a></li>
+					
+						<li><a href="/archives">⿳</a></li>
+					
+						<li><a href="/atom.xml">₨s</a></li>
+					
+						<li><a href="/about">㊙</a></li>
+					
+						<li><a href="/sitemap">∑</a></li>
+					
+					<li>
+					
+					</li>
+                <li><div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div></li>
+
+				</ul>
+			</nav>	
+</div>
+
+    </header>
+    <div id="container" class="clearfix">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/05/14/product-dept/" title="内部信：致产品研发部的小伙伴们" itemprop="url">内部信：致产品研发部的小伙伴们</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://lyso.me" title="leoyonn">leoyonn</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-05-14T10:44:12.000Z" itemprop="datePublished">2014-05-14</time>
+    更新日期:<time datetime="2014-05-15T10:44:12.000Z" itemprop="dateModified">2014-05-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#【团队文化基础】"><span class="toc-number">1.</span> <span class="toc-text">【团队文化基础】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【技术改变生活】"><span class="toc-number">2.</span> <span class="toc-text">【技术改变生活】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【效率&质量】"><span class="toc-number">3.</span> <span class="toc-text">【效率&质量】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【SJTC】"><span class="toc-number">4.</span> <span class="toc-text">【SJTC】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【送姜图书馆】"><span class="toc-number">5.</span> <span class="toc-text">【送姜图书馆】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【送姜点子库】"><span class="toc-number">6.</span> <span class="toc-text">【送姜点子库】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【送姜技术库】"><span class="toc-number">7.</span> <span class="toc-text">【送姜技术库】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【团队建设】"><span class="toc-number">8.</span> <span class="toc-text">【团队建设】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【出勤】"><span class="toc-number">9.</span> <span class="toc-text">【出勤】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【工作方式】"><span class="toc-number">10.</span> <span class="toc-text">【工作方式】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【工作方法论】"><span class="toc-number">11.</span> <span class="toc-text">【工作方法论】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【编码规范】"><span class="toc-number">12.</span> <span class="toc-text">【编码规范】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【代码审查机制】"><span class="toc-number">13.</span> <span class="toc-text">【代码审查机制】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【内部工具集】"><span class="toc-number">14.</span> <span class="toc-text">【内部工具集】</span></a></li></ol>
+		</div>
+		
+		<p>各位好，</p>
+<p>很期待即将与大家共事，一起在送姜打造业界一流的产品，同时也是更重要的，把我们自己打造成一流的团队。<br>本周三开始，我将全职投入到送姜产品技术部的工作中来，7X24为大家服务，大家有任何建议和意见随时提出。</p>
+<p>届时我们要做的首件要事就是讨论和制定重构方案。在此之前我们需要做好准备：</p>
+<ol>
+<li>公司lead层会根据市场、用户的情况等对产品有更深入全面的看法和设想，这些会融入到新的产品设计和技术方案中；</li>
+<li>我会带来一些框架和组件上的浅薄经验，提出来大家一起讨论；</li>
+<li>各位根据现有业务逻辑， 对各自的部分给出重构的方案及建议；</li>
+<li>重构与对现有代码/服务的维护工作分工及时间比例划分。</li>
+</ol>
+<p>以下是我们将推行的一部分约定和措施，</p>
+<h2 id="【团队文化基础】">【团队文化基础】</h2><p>我们是梁山好汉，有一份共同的事业理想，我们共事的基础是相互 信任。<br>我们期望更多聪明能干的牛人加入，但 正直、尽责、合作的品格是考量评估是否适合这个团队的首要因素。<br>我们公司成员都是80后、90后，处于技术、能力、想法快速成长的时期， 进步、互助也将是公司对大家考量评估的重要方面，鼓励大家互相帮助，和公司一起、和其他同事共同成长。</p>
+<h2 id="【技术改变生活】">【技术改变生活】</h2><p>作为技术人员，我们相信 Technology liberate individuals，用自己的天赋、能力、付出，通过公司提供的平台，逐步改善人们的生活品质。<br>我们把自己看作研发（ R&amp;D，Research &amp; Development），不只是Developer。鼓励大家有自己的想法，思考每个问题、每个技术背后的原因，勇于尝试用新的技术解决问题。</p>
+<h2 id="【效率&amp;质量】">【效率&amp;质量】</h2><p>提倡各位同事爱惜自己，包括身体、头脑、时间、能力等，不把精力毫无节制的浪费在重复的工作上，经常思考如何将重复的、手工的工作 工具化、自动化、智能化，并付诸实施。珍爱绳命最高效的方法就是 高效。<br>希望大家有追求极致、做到最好的情结。从设计、实现、测试到部署，都有高度的主人翁态度来把关质量，让问题在最早的时间被发现和消灭。我们也会逐渐建立起审查等流程来通过制度提高工作成果的 质量。</p>
+<h2 id="【SJTC】">【SJTC】</h2><p>公司将组建送姜技术分享会，每两周一次，会议形式是一个人来主讲，然后较多比例的时间大家在会议主题相关的范围展开讨论。会议内容大致安排是，初期阶段由我来主讲两次，后续请同行或朋友来主讲，会议主题可以由大家来提出。之后团队中每位同事都要准备一次分享，鼓励大家踊跃报名主讲。</p>
+<h2 id="【送姜图书馆】">【送姜图书馆】</h2><p>公司将筹办内部图书馆，并制定一套方便的借阅规则，让每一位小伙伴都可以在工作之余有尽可能多的便利资源 提升自己。大家可以提交自己期望读的书单，公司优先提供需求较多的书籍。鼓励大家推荐自己喜欢的书给图书馆长，让其他同事也能从中学习成长。</p>
+<h2 id="【送姜点子库】">【送姜点子库】</h2><p>公司和产品属于每一位员工。鼓励大家对公司产品提出各种各样的新鲜idea，并从生活中收集潜在用户的想法加入到点子库中。每个员工可以对点子库中的点子评分。我们会定期组织brain storming，将点子库中人气较高的点子拿出来，讨论其可行性及方案，最终落实到产品中。</p>
+<h2 id="【送姜技术库】">【送姜技术库】</h2><p>鼓励大家积极推动和参与到技术的积累沉淀中，将比较通用的功能组件开发成 基础类库或工具，这将是公司的财富，在这过程中的技能提升也将是自身的财富。</p>
+<h2 id="【团队建设】">【团队建设】</h2><p>我们每个月都有一定量的经费做 Team Building，Bui的方式是团队成员轮流组织，形式可以多种多样，不损害公司形象、不影响社会安定即可。</p>
+<h2 id="【出勤】">【出勤】</h2><p>推行 弹性工作制。统一上班时间是公司作为一个集体的必然制度，否则每位同事的出勤时间都飘忽不定，会影响其他同事沟通的效率和积极性。但用严格约束限定技术人员的工作时间具有其不合理性，可能会导致效率的低下。员工可以根据交通/家庭/工作量等情况合理安排出勤时间，建议范围是 [9:00-10:00上班，6:00-8:00下班]，若有突发情况须提前告知相关同事并安排好工作进度。<br>我们是一家朝气蓬勃的创业公司，每位同事的每段工作时间都是为公司的未来发展铺路建基，公司尊重和信任每一位同事，感激每一位同事的付出和辛劳，大家现在所做的一点一滴都会在未来放大，促进和影响公司的成长壮大。现在公司以能拥有大家这样一群敢上梁山的热血青年而感动，我们要努力做到以后让自己为曾为送姜的发展添砖加瓦而感动。</p>
+<h2 id="【工作方式】">【工作方式】</h2><p>我们推行自上而下的设计、自下而上的实现。<br>开发流程上，我们将产品目标划分为milestone，再细化为task和子task，每位同事领取task，结合自己的方法方式逐个完成。<br>我们实行每天上午10:00开5分钟 站立会议，同步进度和问题。</p>
+<h2 id="【工作方法论】">【工作方法论】</h2><p>团队是公司的第一财富，各位同事要爱惜自己的身体。建议每位同事都找到合适自己的工作方法，劳逸结合。推荐类似番茄工作法的方式，把自己当天要做的Job划分成Task，每45分钟工作、5分钟短休息，3轮后长休息。休息期间建议起身活动、喝水、做运动，以不影响其他同事的工作、不损坏公物为度。<br>若有同事尤其喜欢安静地工作不被打扰，可以声明自己的“免打扰时间段”，在这时间段内除非线上故障等紧急问题不允许其他人打扰。</p>
+<h2 id="【编码规范】">【编码规范】</h2><p>另附。</p>
+<h2 id="【代码审查机制】">【代码审查机制】</h2><p>另附。</p>
+<h2 id="【内部工具集】">【内部工具集】</h2><p>另附。</p>
+<p>加油，做让自己感动的事！</p>
+<p>—刘洋</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/产品研发部/">产品研发部</a><a href="/tags/价值/">价值</a><a href="/tags/团队/">团队</a><a href="/tags/技术/">技术</a><a href="/tags/效率/">效率</a><a href="/tags/文化/">文化</a><a href="/tags/认可/">认可</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  
+<div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a class="jiathis_button_twitter">Twitter</a>
+    <a class="jiathis_button_evernote">EverNote</a>
+    <a href="http://www.jiathis.com/share?uid=1501277" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/06/25/ten-years/" title="十年">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  十年</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/05/07/setup-this-site/"  title="我的博客站点搭建过程">
+ <strong>NEXT:</strong><br/> 
+ <span>我的博客站点搭建过程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+    <section id="comment">
+
+        <h1 class="title">文章评论</h1>
+
+        <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="2014/05/14/product-dept/" data-title="内部信：致产品研发部的小伙伴们" data-url="http://lyso.me/2014/05/14/product-dept/"></div>
+        <!-- 多说评论框 end -->
+
+        <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+        <script type="text/javascript">
+        var duoshuoQuery = {short_name:"leoyonn"};
+    (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0] 
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+     })();
+    </script>
+        <!-- 多说公共JS代码 end -->
+        </section>
+        
+
+
+</div>  
+      
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#【团队文化基础】"><span class="toc-number">1.</span> <span class="toc-text">【团队文化基础】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【技术改变生活】"><span class="toc-number">2.</span> <span class="toc-text">【技术改变生活】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【效率&质量】"><span class="toc-number">3.</span> <span class="toc-text">【效率&质量】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【SJTC】"><span class="toc-number">4.</span> <span class="toc-text">【SJTC】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【送姜图书馆】"><span class="toc-number">5.</span> <span class="toc-text">【送姜图书馆】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【送姜点子库】"><span class="toc-number">6.</span> <span class="toc-text">【送姜点子库】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【送姜技术库】"><span class="toc-number">7.</span> <span class="toc-text">【送姜技术库】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【团队建设】"><span class="toc-number">8.</span> <span class="toc-text">【团队建设】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【出勤】"><span class="toc-number">9.</span> <span class="toc-text">【出勤】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【工作方式】"><span class="toc-number">10.</span> <span class="toc-text">【工作方式】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【工作方法论】"><span class="toc-number">11.</span> <span class="toc-text">【工作方法论】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【编码规范】"><span class="toc-number">12.</span> <span class="toc-text">【编码规范】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【代码审查机制】"><span class="toc-number">13.</span> <span class="toc-text">【代码审查机制】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#【内部工具集】"><span class="toc-number">14.</span> <span class="toc-text">【内部工具集】</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	
+	<section class="author-info">
+		
+			<p> 送姜科技联合创始人/CTO</p>
+		
+		
+			<p>	Technology liberates individuals, innovation changes the world.</p>
+		
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1821284675" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/leoyonn" target="_blank" title="github"></a>
+		
+		
+	</div>
+</div>
+<aside class="clearfix">
+
+
+  
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">十一月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">七月 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">五月 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">一月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">十一月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/07/">七月 2008</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/80后/" style="font-size: 10px;">80后</a><a href="/tags/ByteBuf/" style="font-size: 10px;">ByteBuf</a><a href="/tags/CEO/" style="font-size: 10px;">CEO</a><a href="/tags/CTO/" style="font-size: 10px;">CTO</a><a href="/tags/Dota/" style="font-size: 10px;">Dota</a><a href="/tags/FSM/" style="font-size: 16px;">FSM</a><a href="/tags/Google-Sync/" style="font-size: 10px;">Google Sync</a><a href="/tags/HBase/" style="font-size: 10px;">HBase</a><a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a><a href="/tags/Jekyll/" style="font-size: 10px;">Jekyll</a><a href="/tags/MAT/" style="font-size: 10px;">MAT</a><a href="/tags/NIO/" style="font-size: 10px;">NIO</a><a href="/tags/Netty/" style="font-size: 10px;">Netty</a><a href="/tags/PolledByteBufAllocator/" style="font-size: 10px;">PolledByteBufAllocator</a><a href="/tags/Reactive-Streams/" style="font-size: 10px;">Reactive Streams</a><a href="/tags/Redis/" style="font-size: 10px;">Redis</a><a href="/tags/actor模型/" style="font-size: 16px;">actor模型</a><a href="/tags/back-pressure/" style="font-size: 10px;">back pressure</a><a href="/tags/dpi/" style="font-size: 10px;">dpi</a><a href="/tags/erlang/" style="font-size: 16px;">erlang</a><a href="/tags/github-pages/" style="font-size: 10px;">github pages</a><a href="/tags/go/" style="font-size: 10px;">go</a><a href="/tags/golang/" style="font-size: 10px;">golang</a><a href="/tags/hbase-batch/" style="font-size: 10px;">hbase-batch</a><a href="/tags/java内存模型/" style="font-size: 16px;">java内存模型</a><a href="/tags/java线程模型/" style="font-size: 16px;">java线程模型</a><a href="/tags/jhat/" style="font-size: 10px;">jhat</a><a href="/tags/jmap/" style="font-size: 10px;">jmap</a><a href="/tags/little-s-law/" style="font-size: 10px;">little's law</a><a href="/tags/mampa/" style="font-size: 14px;">mampa</a><a href="/tags/netty/" style="font-size: 10px;">netty</a><a href="/tags/pixel/" style="font-size: 10px;">pixel</a><a href="/tags/ppi/" style="font-size: 10px;">ppi</a><a href="/tags/queueing-threory/" style="font-size: 10px;">queueing threory</a><a href="/tags/reactive-streams/" style="font-size: 10px;">reactive streams</a><a href="/tags/reactor/" style="font-size: 10px;">reactor</a><a href="/tags/rec-sys/" style="font-size: 12px;">rec-sys</a><a href="/tags/redis-pipline/" style="font-size: 10px;">redis pipline</a><a href="/tags/resolution/" style="font-size: 10px;">resolution</a><a href="/tags/三体/" style="font-size: 12px;">三体</a><a href="/tags/世界观/" style="font-size: 10px;">世界观</a><a href="/tags/丛林法则/" style="font-size: 12px;">丛林法则</a><a href="/tags/个性化推荐/" style="font-size: 12px;">个性化推荐</a><a href="/tags/中关村创业大街/" style="font-size: 10px;">中关村创业大街</a><a href="/tags/事上练/" style="font-size: 10px;">事上练</a><a href="/tags/亚军/" style="font-size: 10px;">亚军</a><a href="/tags/产品/" style="font-size: 10px;">产品</a><a href="/tags/产品研发部/" style="font-size: 10px;">产品研发部</a><a href="/tags/人大/" style="font-size: 10px;">人大</a><a href="/tags/人生/" style="font-size: 14px;">人生</a><a href="/tags/人生观/" style="font-size: 10px;">人生观</a><a href="/tags/价值/" style="font-size: 10px;">价值</a><a href="/tags/价值观/" style="font-size: 10px;">价值观</a><a href="/tags/信任/" style="font-size: 10px;">信任</a><a href="/tags/像素/" style="font-size: 10px;">像素</a><a href="/tags/兄弟/" style="font-size: 10px;">兄弟</a><a href="/tags/八方/" style="font-size: 10px;">八方</a><a href="/tags/内存泄露/" style="font-size: 12px;">内存泄露</a><a href="/tags/决策/" style="font-size: 10px;">决策</a><a href="/tags/分辨率/" style="font-size: 10px;">分辨率</a><a href="/tags/创业/" style="font-size: 16px;">创业</a><a href="/tags/利特尔法则/" style="font-size: 10px;">利特尔法则</a><a href="/tags/北大人/" style="font-size: 10px;">北大人</a><a href="/tags/北航/" style="font-size: 10px;">北航</a><a href="/tags/喻华峰/" style="font-size: 10px;">喻华峰</a><a href="/tags/团队/" style="font-size: 12px;">团队</a><a href="/tags/图像处理/" style="font-size: 10px;">图像处理</a><a href="/tags/大数据/" style="font-size: 12px;">大数据</a><a href="/tags/对错观/" style="font-size: 10px;">对错观</a><a href="/tags/小米/" style="font-size: 10px;">小米</a><a href="/tags/小米推送系统/" style="font-size: 10px;">小米推送系统</a><a href="/tags/小米羽毛球联赛/" style="font-size: 10px;">小米羽毛球联赛</a><a href="/tags/并发/" style="font-size: 20px;">并发</a><a href="/tags/开源/" style="font-size: 18px;">开源</a><a href="/tags/异步/" style="font-size: 20px;">异步</a><a href="/tags/异步HBase客户端/" style="font-size: 10px;">异步HBase客户端</a><a href="/tags/异步Redis客户端/" style="font-size: 10px;">异步Redis客户端</a><a href="/tags/当下/" style="font-size: 10px;">当下</a><a href="/tags/心即理/" style="font-size: 10px;">心即理</a><a href="/tags/愿景/" style="font-size: 10px;">愿景</a><a href="/tags/技术/" style="font-size: 10px;">技术</a><a href="/tags/担当/" style="font-size: 10px;">担当</a><a href="/tags/排队理论/" style="font-size: 10px;">排队理论</a><a href="/tags/推荐系统/" style="font-size: 12px;">推荐系统</a><a href="/tags/效率/" style="font-size: 10px;">效率</a><a href="/tags/数据挖掘/" style="font-size: 12px;">数据挖掘</a><a href="/tags/文化/" style="font-size: 10px;">文化</a><a href="/tags/方向/" style="font-size: 10px;">方向</a><a href="/tags/无锁/" style="font-size: 10px;">无锁</a><a href="/tags/有限状态机/" style="font-size: 16px;">有限状态机</a><a href="/tags/本来生活/" style="font-size: 10px;">本来生活</a><a href="/tags/机器学习/" style="font-size: 12px;">机器学习</a><a href="/tags/林毅夫/" style="font-size: 10px;">林毅夫</a><a href="/tags/校招/" style="font-size: 10px;">校招</a><a href="/tags/梦想/" style="font-size: 10px;">梦想</a><a href="/tags/毕业/" style="font-size: 12px;">毕业</a><a href="/tags/河流/" style="font-size: 10px;">河流</a><a href="/tags/泊松过程/" style="font-size: 10px;">泊松过程</a><a href="/tags/渺小/" style="font-size: 10px;">渺小</a><a href="/tags/源道法术器势/" style="font-size: 10px;">源道法术器势</a><a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a><a href="/tags/现实/" style="font-size: 10px;">现实</a><a href="/tags/理想/" style="font-size: 10px;">理想</a><a href="/tags/生命/" style="font-size: 12px;">生命</a><a href="/tags/生活/" style="font-size: 10px;">生活</a><a href="/tags/知行合一/" style="font-size: 10px;">知行合一</a><a href="/tags/管理/" style="font-size: 10px;">管理</a><a href="/tags/米莱/" style="font-size: 10px;">米莱</a><a href="/tags/网易八方/" style="font-size: 10px;">网易八方</a><a href="/tags/羽毛球/" style="font-size: 10px;">羽毛球</a><a href="/tags/翻墙/" style="font-size: 10px;">翻墙</a><a href="/tags/职业规划/" style="font-size: 14px;">职业规划</a><a href="/tags/认可/" style="font-size: 10px;">认可</a><a href="/tags/豆芽/" style="font-size: 10px;">豆芽</a><a href="/tags/负指数分布/" style="font-size: 10px;">负指数分布</a><a href="/tags/责任/" style="font-size: 10px;">责任</a><a href="/tags/送姜/" style="font-size: 12px;">送姜</a><a href="/tags/队列/" style="font-size: 10px;">队列</a><a href="/tags/阳明心血/" style="font-size: 10px;">阳明心血</a><a href="/tags/饭饭/" style="font-size: 12px;">饭饭</a><a href="/tags/马尔科夫链/" style="font-size: 10px;">马尔科夫链</a><a href="/tags/高校/" style="font-size: 10px;">高校</a><a href="/tags/黑暗森林/" style="font-size: 12px;">黑暗森林</a>
+    </div>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+<script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+    $(window).load(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    })
+</script>
+
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  //back to top
+  function backToTop(){
+    var buttonHTML = $("<a href=\"#top\" id=\"back-top\">" + "<span>Back to Top</span></a>");
+    buttonHTML.appendTo($("body"));
+    var buttonToTop = $("#back-top");
+    // hide #back-top first
+    buttonToTop.hide();
+
+    // fade in #back-top
+    $(function() {
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                buttonToTop.fadeIn();
+            } else {
+                buttonToTop.fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        buttonToTop.click(function() {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 800);
+            return false;
+        });
+    });
+  }
+  backToTop();
+
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      ta = $('#toc.toc-aside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+
+  var show = true;
+  c.click(function(){
+    if(show == true){
+        a.addClass('fadeOut').css('display', 'none');
+        ta.css('display', 'block').addClass('fadeIn');
+        m.addClass('moveMain');  
+    }else{
+        a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');     
+        ta.css('display', 'none'); 
+        m.removeClass('moveMain');
+        $('#toc.toc-aside').css('display', 'none');
+    }
+    show = !show;
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,240-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lyso"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

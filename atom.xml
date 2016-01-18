@@ -299,6 +299,41 @@
   </entry>
   
   <entry>
+    <title><![CDATA[亿万并发的背后]]></title>
+    <link href="http://lyso.me/2015/07/01/concurrency-behind-1g/"/>
+    <id>http://lyso.me/2015/07/01/concurrency-behind-1g/</id>
+    <published>2015-07-01T10:44:12.000Z</published>
+    <updated>2015-07-01T10:44:12.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
+<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品研发部的过程中，举办了几期送姜技术分享会（SJTC），其中第二期我主讲，总结之前在网易有道/小米做高并发服务积累的一些经验和认知，分享内容汇总如下。</p>
+<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.002.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.003.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.004.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.005.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.006.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.007.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.008.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.009.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.011.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.012.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.013.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.014.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.015.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.016.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.017.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.018.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.019.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.020.jpeg" alt="concurrency"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
+<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品]]>
+    </summary>
+    
+      <category term="FSM" scheme="http://lyso.me/tags/FSM/"/>
+    
+      <category term="actor模型" scheme="http://lyso.me/tags/actor%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="erlang" scheme="http://lyso.me/tags/erlang/"/>
+    
+      <category term="java内存模型" scheme="http://lyso.me/tags/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="java线程模型" scheme="http://lyso.me/tags/java%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="并发" scheme="http://lyso.me/tags/%E5%B9%B6%E5%8F%91/"/>
+    
+      <category term="开源" scheme="http://lyso.me/tags/%E5%BC%80%E6%BA%90/"/>
+    
+      <category term="异步" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5/"/>
+    
+      <category term="有限状态机" scheme="http://lyso.me/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[生命的感触]]></title>
     <link href="http://lyso.me/2015/07/01/about-life/"/>
     <id>http://lyso.me/2015/07/01/about-life/</id>
@@ -373,41 +408,6 @@
       <category term="生命" scheme="http://lyso.me/tags/%E7%94%9F%E5%91%BD/"/>
     
       <category term="生活" scheme="http://lyso.me/tags/%E7%94%9F%E6%B4%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[亿万并发的背后]]></title>
-    <link href="http://lyso.me/2015/07/01/concurrency-behind-1g/"/>
-    <id>http://lyso.me/2015/07/01/concurrency-behind-1g/</id>
-    <published>2015-07-01T10:44:12.000Z</published>
-    <updated>2015-07-01T10:44:12.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
-<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品研发部的过程中，举办了几期送姜技术分享会（SJTC），其中第二期我主讲，总结之前在网易有道/小米做高并发服务积累的一些经验和认知，分享内容汇总如下。</p>
-<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.002.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.003.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.004.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.005.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.006.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.007.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.008.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.009.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.011.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.012.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.013.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.014.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.015.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.016.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.017.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.018.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.019.jpeg" alt="concurrency"><br><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.020.jpeg" alt="concurrency"></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="http://7jprdp.com1.z0.glb.clouddn.com/concurrency.arch.001.jpeg" alt="concurrency"></p>
-<h2 id="送姜技术分享会">送姜技术分享会</h2><p>在组建送姜产品]]>
-    </summary>
-    
-      <category term="FSM" scheme="http://lyso.me/tags/FSM/"/>
-    
-      <category term="actor模型" scheme="http://lyso.me/tags/actor%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="erlang" scheme="http://lyso.me/tags/erlang/"/>
-    
-      <category term="java内存模型" scheme="http://lyso.me/tags/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="java线程模型" scheme="http://lyso.me/tags/java%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="并发" scheme="http://lyso.me/tags/%E5%B9%B6%E5%8F%91/"/>
-    
-      <category term="开源" scheme="http://lyso.me/tags/%E5%BC%80%E6%BA%90/"/>
-    
-      <category term="异步" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5/"/>
-    
-      <category term="有限状态机" scheme="http://lyso.me/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/"/>
     
   </entry>
   
@@ -1206,6 +1206,61 @@ MathJax.Hub.Config({
   </entry>
   
   <entry>
+    <title><![CDATA[内部信：致产品研发部的小伙伴们]]></title>
+    <link href="http://lyso.me/2014/05/14/product-dept/"/>
+    <id>http://lyso.me/2014/05/14/product-dept/</id>
+    <published>2014-05-14T10:44:12.000Z</published>
+    <updated>2014-05-15T10:44:12.000Z</updated>
+    <content type="html"><![CDATA[<p>各位好，</p>
+<p>很期待即将与大家共事，一起在送姜打造业界一流的产品，同时也是更重要的，把我们自己打造成一流的团队。<br>本周三开始，我将全职投入到送姜产品技术部的工作中来，7X24为大家服务，大家有任何建议和意见随时提出。</p>
+<p>届时我们要做的首件要事就是讨论和制定重构方案。在此之前我们需要做好准备：</p>
+<ol>
+<li>公司lead层会根据市场、用户的情况等对产品有更深入全面的看法和设想，这些会融入到新的产品设计和技术方案中；</li>
+<li>我会带来一些框架和组件上的浅薄经验，提出来大家一起讨论；</li>
+<li>各位根据现有业务逻辑， 对各自的部分给出重构的方案及建议；</li>
+<li>重构与对现有代码/服务的维护工作分工及时间比例划分。</li>
+</ol>
+<p>以下是我们将推行的一部分约定和措施，</p>
+<h2 id="【团队文化基础】">【团队文化基础】</h2><p>我们是梁山好汉，有一份共同的事业理想，我们共事的基础是相互 信任。<br>我们期望更多聪明能干的牛人加入，但 正直、尽责、合作的品格是考量评估是否适合这个团队的首要因素。<br>我们公司成员都是80后、90后，处于技术、能力、想法快速成长的时期， 进步、互助也将是公司对大家考量评估的重要方面，鼓励大家互相帮助，和公司一起、和其他同事共同成长。</p>
+<h2 id="【技术改变生活】">【技术改变生活】</h2><p>作为技术人员，我们相信 Technology liberate individuals，用自己的天赋、能力、付出，通过公司提供的平台，逐步改善人们的生活品质。<br>我们把自己看作研发（ R&amp;D，Research &amp; Development），不只是Developer。鼓励大家有自己的想法，思考每个问题、每个技术背后的原因，勇于尝试用新的技术解决问题。</p>
+<h2 id="【效率&amp;质量】">【效率&amp;质量】</h2><p>提倡各位同事爱惜自己，包括身体、头脑、时间、能力等，不把精力毫无节制的浪费在重复的工作上，经常思考如何将重复的、手工的工作 工具化、自动化、智能化，并付诸实施。珍爱绳命最高效的方法就是 高效。<br>希望大家有追求极致、做到最好的情结。从设计、实现、测试到部署，都有高度的主人翁态度来把关质量，让问题在最早的时间被发现和消灭。我们也会逐渐建立起审查等流程来通过制度提高工作成果的 质量。</p>
+<h2 id="【SJTC】">【SJTC】</h2><p>公司将组建送姜技术分享会，每两周一次，会议形式是一个人来主讲，然后较多比例的时间大家在会议主题相关的范围展开讨论。会议内容大致安排是，初期阶段由我来主讲两次，后续请同行或朋友来主讲，会议主题可以由大家来提出。之后团队中每位同事都要准备一次分享，鼓励大家踊跃报名主讲。</p>
+<h2 id="【送姜图书馆】">【送姜图书馆】</h2><p>公司将筹办内部图书馆，并制定一套方便的借阅规则，让每一位小伙伴都可以在工作之余有尽可能多的便利资源 提升自己。大家可以提交自己期望读的书单，公司优先提供需求较多的书籍。鼓励大家推荐自己喜欢的书给图书馆长，让其他同事也能从中学习成长。</p>
+<h2 id="【送姜点子库】">【送姜点子库】</h2><p>公司和产品属于每一位员工。鼓励大家对公司产品提出各种各样的新鲜idea，并从生活中收集潜在用户的想法加入到点子库中。每个员工可以对点子库中的点子评分。我们会定期组织brain storming，将点子库中人气较高的点子拿出来，讨论其可行性及方案，最终落实到产品中。</p>
+<h2 id="【送姜技术库】">【送姜技术库】</h2><p>鼓励大家积极推动和参与到技术的积累沉淀中，将比较通用的功能组件开发成 基础类库或工具，这将是公司的财富，在这过程中的技能提升也将是自身的财富。</p>
+<h2 id="【团队建设】">【团队建设】</h2><p>我们每个月都有一定量的经费做 Team Building，Bui的方式是团队成员轮流组织，形式可以多种多样，不损害公司形象、不影响社会安定即可。</p>
+<h2 id="【出勤】">【出勤】</h2><p>推行 弹性工作制。统一上班时间是公司作为一个集体的必然制度，否则每位同事的出勤时间都飘忽不定，会影响其他同事沟通的效率和积极性。但用严格约束限定技术人员的工作时间具有其不合理性，可能会导致效率的低下。员工可以根据交通/家庭/工作量等情况合理安排出勤时间，建议范围是 [9:00-10:00上班，6:00-8:00下班]，若有突发情况须提前告知相关同事并安排好工作进度。<br>我们是一家朝气蓬勃的创业公司，每位同事的每段工作时间都是为公司的未来发展铺路建基，公司尊重和信任每一位同事，感激每一位同事的付出和辛劳，大家现在所做的一点一滴都会在未来放大，促进和影响公司的成长壮大。现在公司以能拥有大家这样一群敢上梁山的热血青年而感动，我们要努力做到以后让自己为曾为送姜的发展添砖加瓦而感动。</p>
+<h2 id="【工作方式】">【工作方式】</h2><p>我们推行自上而下的设计、自下而上的实现。<br>开发流程上，我们将产品目标划分为milestone，再细化为task和子task，每位同事领取task，结合自己的方法方式逐个完成。<br>我们实行每天上午10:00开5分钟 站立会议，同步进度和问题。</p>
+<h2 id="【工作方法论】">【工作方法论】</h2><p>团队是公司的第一财富，各位同事要爱惜自己的身体。建议每位同事都找到合适自己的工作方法，劳逸结合。推荐类似番茄工作法的方式，把自己当天要做的Job划分成Task，每45分钟工作、5分钟短休息，3轮后长休息。休息期间建议起身活动、喝水、做运动，以不影响其他同事的工作、不损坏公物为度。<br>若有同事尤其喜欢安静地工作不被打扰，可以声明自己的“免打扰时间段”，在这时间段内除非线上故障等紧急问题不允许其他人打扰。</p>
+<h2 id="【编码规范】">【编码规范】</h2><p>另附。</p>
+<h2 id="【代码审查机制】">【代码审查机制】</h2><p>另附。</p>
+<h2 id="【内部工具集】">【内部工具集】</h2><p>另附。</p>
+<p>加油，做让自己感动的事！</p>
+<p>—刘洋</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>各位好，</p>
+<p>很期待即将与大家共事，一起在送姜打造业界一流的产品，同时也是更重要的，把我们自己打造成一流的团队。<br>本周三开始，我将全职投入到送姜产品技术部的工作中来，7X24为大家服务，大家有任何建议和意见随时提出。</p>
+<p>届时我们要做的首件要事就是]]>
+    </summary>
+    
+      <category term="产品研发部" scheme="http://lyso.me/tags/%E4%BA%A7%E5%93%81%E7%A0%94%E5%8F%91%E9%83%A8/"/>
+    
+      <category term="价值" scheme="http://lyso.me/tags/%E4%BB%B7%E5%80%BC/"/>
+    
+      <category term="团队" scheme="http://lyso.me/tags/%E5%9B%A2%E9%98%9F/"/>
+    
+      <category term="技术" scheme="http://lyso.me/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="效率" scheme="http://lyso.me/tags/%E6%95%88%E7%8E%87/"/>
+    
+      <category term="文化" scheme="http://lyso.me/tags/%E6%96%87%E5%8C%96/"/>
+    
+      <category term="认可" scheme="http://lyso.me/tags/%E8%AE%A4%E5%8F%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[我的博客站点搭建过程]]></title>
     <link href="http://lyso.me/2014/05/07/setup-this-site/"/>
     <id>http://lyso.me/2014/05/07/setup-this-site/</id>
@@ -1439,54 +1494,6 @@ MathJax.Hub.Config({
       <category term="异步" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5/"/>
     
       <category term="异步HBase客户端" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5HBase%E5%AE%A2%E6%88%B7%E7%AB%AF/"/>
-    
-      <category term="有限状态机" scheme="http://lyso.me/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[小米异步消息处理架构：mampa]]></title>
-    <link href="http://lyso.me/2014/02/01/mampa/"/>
-    <id>http://lyso.me/2014/02/01/mampa/</id>
-    <published>2014-02-01T10:44:12.000Z</published>
-    <updated>2014-02-10T10:44:12.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://lyso.qiniudn.com/mampa.jpg" alt="mampa"></p>
-<h2 id="什么是mampa">什么是mampa</h2><p><em>MAMPA</em>的全称是：<em>xiaoMi Asynchronous Message Processing Architecture</em>，是我在小米消息组时用java开发的一套异步并发框架。</p>
-<h2 id="为什么做mampa">为什么做mampa</h2><p>　　问各位一个问题：如何写并发程序？大家脑海中会浮现一堆关键词，synchronized, ReentrantReadWriteLock, Condition, await, notify, ThreadLocal, Lock, LinkedBlockingQueue, ConcurrentHashMap, volatile …… 也能想到一些其他的语言，如Erlang、Golang等。我们需要考虑到对象是需要对象和类是不是线程安全的，是不是需要在多个线程上运行，是不是要加锁，会不会造成死锁，会不会有饥饿，要不要为性能失掉一定的正确性，等等。在这种情况下，新手上路很难写出正确高效漂亮兼具的代码，高手和大牛的经验不具有可复制性可可扩展性。</p>
-<p>　　小米消息系统的架构和业务逻辑代码大多用Erlang编写，这里另外一个越来越突出的问题是，大规模Erlang程序学习曲线太高，新手很难在短时间内参与到线上系统的开发和问题调查中去，这样会导致个别老员工疲于奔命……</p>
-<p>　　一开始，老员工想做出这套erlang程序的java版。但后来Team Lead找到我，说我们应该着眼与更长远的目标，做一套通用的框架，让新同事写业务逻辑时就像连连线，不用考虑多线程问题。于是我开始研究Erlang中的gem_fsm，研究akka中的actor，在组里其他同事的协助和宝贵建议下，mampa出炉并一步一步走向成熟，逐步接管小米云平台消息系统各个业务中的各种模块。</p>
-<h2 id="设计核心">设计核心</h2><p>　　我们的目标是，<em>设计一个高吞吐高性能的异步消息处理架构，并对开发者将并发问题隐藏起来</em>。</p>
-<h3 id="从头开始">从头开始</h3><p>　　什么样的并发程序/机制是高效的？加锁？共享内存？信号量？</p>
-<p>　　要回答这个问题，我们不妨想想，自然界的并发单位是什么？我们每个人都是一个并发单位，我们都在做着自己的事情，思考着自己的问题——哪里有什么共享内存？人与人之间交流，用说话，用短信，电子邮件，为什么需要在你大脑里的一块区域加锁，然后把要告诉你的信息放进去，然后再释放锁？哪有什么锁的概念？我想问题时到我自己大脑检索信息，难道也要锁不成？</p>
-<p>　　我接触到这个概念是恍然大悟“是啊，是这样的”，不知道你怎么想。那在写程序时，为什么不能这样呢。这是MAMPA的设计核心思路——无锁。</p>
-<h3 id="Actor：并发单元">Actor：并发单元</h3><p>　　在MAMPA中，一个并发单元就是Actor。每个Actor锁定在一个线程上：这个Actor中的所有数据只有这个线程能处理、这个线程也只为这个Actor服务。</p>
-<p>　　有了Actor，怎么与之通信呢？<a href="http://golang.org/doc/effective_go.html" target="_blank" rel="external">Golang</a> 有一个我很喜欢的设计理念，</p>
-<blockquote>
-<p>Do not communicate by sharing memory; instead, share memory by communicating.</p>
-</blockquote>
-<p>　　在Golang里是通过channel传输消息的，那我们也需要给Actor做一个专用的channel，叫做mailbox。任何Actor想与其他Actor通信，就需要把消息发到他们的mailbox中，也就是说mailbox可以任意多个线程写，只有一个线程读——多线程的竞争问题只在此处体现，除此之外，全是单线程的天下，即除了mailbox的其它任意数据只有一个线程读写。</p>
-<p>　　那如何高效实现这样的mailbox呢？当然有一种简单的实现方案是LinkedBlockingQueue。这个场景我们的第一反应是<a href="https://github.com/LMAX-Exchange/disruptor" target="_blank" rel="external">Disruptor</a> ，一个高效的无锁环形队列。对Disruptor的介绍参见我<a href="http://lyso.me/2013/09/01/disruptor/" target="_blank" rel="external">另一篇文章</a> 。</p>
-<h2 id="应用案例">应用案例</h2><h2 id="mampa性能好在哪">mampa性能好在哪</h2>]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="http://lyso.qiniudn.com/mampa.jpg" alt="mampa"></p>
-<h2 id="什么是mampa">什么是mampa</h2><p><em>MAMPA</em>的全称是：<em>xiaoMi Asynchronou]]>
-    </summary>
-    
-      <category term="FSM" scheme="http://lyso.me/tags/FSM/"/>
-    
-      <category term="actor模型" scheme="http://lyso.me/tags/actor%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="erlang" scheme="http://lyso.me/tags/erlang/"/>
-    
-      <category term="java内存模型" scheme="http://lyso.me/tags/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="java线程模型" scheme="http://lyso.me/tags/java%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/"/>
-    
-      <category term="并发" scheme="http://lyso.me/tags/%E5%B9%B6%E5%8F%91/"/>
-    
-      <category term="开源" scheme="http://lyso.me/tags/%E5%BC%80%E6%BA%90/"/>
-    
-      <category term="异步" scheme="http://lyso.me/tags/%E5%BC%82%E6%AD%A5/"/>
     
       <category term="有限状态机" scheme="http://lyso.me/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/"/>
     
