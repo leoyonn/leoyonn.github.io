@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://lyso.me/2016/10/08/brave-heart-ss/</loc>
+    <lastmod>2016-10-08T04:44:12.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://lyso.me/2016/10/07/brave-heart-s/</loc>
     <lastmod>2016-10-07T04:44:12.000Z</lastmod>
   </url>
@@ -62,11 +67,6 @@
   </url>
   
   <url>
-    <loc>http://lyso.me/2011/01/06/google-sync/</loc>
-    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://lyso.me/2012/11/24/go-hello-world/</loc>
     <lastmod>2015-04-02T02:46:57.000Z</lastmod>
   </url>
@@ -97,12 +97,12 @@
   </url>
   
   <url>
-    <loc>http://lyso.me/2011/01/20/zen-for-knot/</loc>
+    <loc>http://lyso.me/2014/06/27/badminton-second-mi/</loc>
     <lastmod>2015-04-02T02:46:57.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://lyso.me/2012/11/24/santi-startup/</loc>
+    <loc>http://lyso.me/2011/01/20/zen-for-knot/</loc>
     <lastmod>2015-04-02T02:46:57.000Z</lastmod>
   </url>
   
@@ -112,7 +112,12 @@
   </url>
   
   <url>
-    <loc>http://lyso.me/2014/06/27/badminton-second-mi/</loc>
+    <loc>http://lyso.me/2012/11/24/santi-startup/</loc>
+    <lastmod>2015-04-02T02:46:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lyso.me/2011/01/06/google-sync/</loc>
     <lastmod>2015-04-02T02:46:57.000Z</lastmod>
   </url>
   
